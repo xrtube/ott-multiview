@@ -1,6 +1,6 @@
-This is a web based multiview screen for HLS and MPEG-DASH streams based on hls.js and Shaka Player. Recommended to run in fullscreen mode.
+This is a web based XRTube-Client for HLS and MPEG-DASH streams based on hls.js and Shaka Player. Recommended to run in fullscreen mode.
 
-![](screenshot.png)
+
 
 Demo: http://labs.eyevinn.se/multiview/?config=example.json
 
@@ -13,7 +13,7 @@ Some limitations apply:
 
 Get the code from Github or fork the repository if you plan to contribute to this project.
 
-		git clone https://github.com/Eyevinn/ott-multiview.git
+		git clone https://github.com/xrtube/xrtube-client
 		
 Install the necessary node modules
 
