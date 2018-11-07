@@ -43,10 +43,9 @@ th {
 }
 
 .info {
-  background: url('../images/eyevinn-logo-square.png');
+  background: url('../images/trustfarm_logo.png');
   background-color: #fff;
   background-repeat: no-repeat;
-  background-position: center;
   background-size: auto 280px;
   min-height: 280px;
   color: #000;

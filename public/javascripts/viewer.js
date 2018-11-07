@@ -148,11 +148,14 @@ function initMultiView(config) {
     shaka.polyfill.installAll();
     initViewPortRow(0, 4, config);
     initViewPortRow(1, 4, config);
-    if(config['row0'][0]) { 
-      initViewPort(config['row0'][0], 'vpleft');
+    initViewPortRow(2, 4, config);
+    initViewPortRow(3, 4, config);
+
+    if(config['main'][0]) { 
+      initViewPort(config['main'][0], 'vpleft');
     }
-    if(config['row1'][0]) { 
-      initViewPort(config['row1'][0], 'vpright');
+    if(config['main'][1]) { 
+      initViewPort(config['main'][1], 'vpright');
     }
   }
 }
