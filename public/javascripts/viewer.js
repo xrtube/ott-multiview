@@ -54,8 +54,8 @@ function initDashPlayer(conf, videoelemid, donecb) {
     if (shakaPlayers[ev.target.id]) {
       var p = shakaPlayers[ev.target.id];
       var stats = p.getStats();
-      var metaelem = document.getElementById(ev.target.id + '-meta');
-      metaelem.innerHTML = (stats.streamBandwidth / 1000).toFixed(0) + 'kbps';
+      //var metaelem = document.getElementById(ev.target.id + '-meta');
+      //metaelem.innerHTML = (stats.streamBandwidth / 1000).toFixed(0) + 'kbps';
     }
   });
 
@@ -93,8 +93,8 @@ function initViewPort(conf, videoelemid) {
     videoelem.addEventListener("click", onVideoClick);
     videoelem.addEventListener("waiting", onWaiting);
     videoelem.addEventListener("playing", onPlaying);
-    var titleelem = document.getElementById(videoelemid+'-title');
-    titleelem.innerHTML = conf.title;
+    //var titleelem = document.getElementById(videoelemid+'-title');
+    //titleelem.innerHTML = conf.title;
   });
 }
 
@@ -139,8 +139,8 @@ function togglePlaybackOnAllViewPorts() {
       togglePlayback(videoelem);
     }
   }
-  togglePlayback(document.getElementById('vpleft')); 
-  togglePlayback(document.getElementById('vpright')); 
+  //togglePlayback(document.getElementById('vpleft')); 
+  //togglePlayback(document.getElementById('vpright')); 
 }
 
 function initMultiView(config) {
@@ -151,12 +151,14 @@ function initMultiView(config) {
     initViewPortRow(2, 4, config);
     initViewPortRow(3, 4, config);
 
+    /*
     if(config['main'][0]) { 
       initViewPort(config['main'][0], 'vpleft');
     }
     if(config['main'][1]) { 
       initViewPort(config['main'][1], 'vpright');
     }
+    */
   }
 }
 
