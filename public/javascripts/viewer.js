@@ -116,10 +116,37 @@ function initViewPortRow(row, numcols, config) {
   }
 }
 
-function initCommonAudio(config) {
+function playCommonAudio(config) {
     conf = config["common"][0];
     console.dir(conf);
-    audioelemid = "va0";  // default id
+    audioelemid = "ap0";  // default id
+    videoelem = document.getElementById(audioelemid);
+    shakap = new shaka.Player(videoelem);
+    console.log(`initDash for audio Player ${videoelem}`);
+    shakap.load(conf.manifest).then(function(ev) {
+      videoelem.muted = true;
+      videoelem.play();
+      videoelem.volume = 1;
+      videoelem.muted = false;
+      console.log(`${conf.manifest} play(vol ${videoelem.volume}) muted ${videoelem.muted}`);
+    }).catch(function(e) { console.log("Error: ", e); });
+
+    shakap.muted = false;
+    shakap.volume = 1;
+    videoelem.className += " audio-unmuted";
+    videoelem.muted = false;
+
+    console.log(`${videoelem.className} play(vol ${videoelem.volume}) muted ${videoelem.muted}`);
+
+    console.dir(` video conf : ${videoelem.getConfiguration}`);
+
+}
+
+function initCommonAudio(config) {
+  conf = config["common"][0];
+  console.dir(conf);
+  audioelemid = "va00";  // default id
+
     if (conf) {
       initPlayer(conf, audioelemid, function(audioelem) {
         console.log(audioelemid + " loaded!");
@@ -181,12 +208,14 @@ function togglePlaybackOnAllViewPorts() {
 function initMultiView(config) {
   if (config) {
     shaka.polyfill.installAll();
-    initCommonAudio(config);
+    //initCommonAudio(config);
+    playCommonAudio(config);
+    /*
     initViewPortRow(0, 4, config);
     initViewPortRow(1, 4, config);
     initViewPortRow(2, 4, config);
     initViewPortRow(3, 4, config);
-
+    */
     /*
     if(config['main'][0]) { 
       initViewPort(config['main'][0], 'vpleft');
