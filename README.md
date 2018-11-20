@@ -2,7 +2,7 @@ This is a web based XRTube-Client for HLS and MPEG-DASH streams based on hls.js 
 
 
 
-Demo: http://localhost:3000/?config=example.json
+Demo: http://localhost:3000/?config=peru-8k.json
 
 Some limitations apply:
 
