@@ -27,7 +27,7 @@ Start the Node express app
 
 When the Node express app is up and running you can direct your Chrome browser to:
 
-		http://localhost:3000/?config=example.json
+		http://localhost:3000/?config=peru-8k.json
 		
 where example.json is a configuration file placed in the directory config/ and can look like this:
 
