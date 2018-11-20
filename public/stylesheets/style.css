@@ -42,6 +42,27 @@ body {
     letter-spacing:0px;
   }
 
+  audio {
+    width: 100%;
+    min-height: 200px;
+    border: 1px solid #777777;
+  }
+  .audio-active {
+    opacity: 1;
+  }
+  
+  .audio-paused {
+    opacity: 0.5;
+  }
+  
+  .audio-buffering {
+    border: 3px solid red;
+  }
+  
+  .audio-unmuted {
+    border: 3px solid green;
+  }
+  
   video {
     width: 100%;
     min-height: 200px;
@@ -66,12 +87,6 @@ body {
     font-size: 8px;
   }
 
-  video {
-    width: 100%;
-    min-height: 200px;
-    border: 1px solid #777777;
-  }
-  
   .video-active {
     opacity: 1;
   }

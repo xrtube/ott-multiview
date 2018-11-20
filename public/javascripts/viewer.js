@@ -47,8 +47,12 @@ function initHlsPlayer(conf, videoelemid, donecb) {
 }
 
 function initDashPlayer(conf, videoelemid, donecb) {
-  var videoelem = document.getElementById(videoelemid);
-  var shakap = new shaka.Player(videoelem);
+  var videoelem;
+  var shakap;
+
+  videoelem = document.getElementById(videoelemid);
+  shakap = new shaka.Player(videoelem);
+  console.log(`initDash Player ${videoelem}`);
   shakaPlayers[videoelemid] = shakap;
   videoelem.addEventListener('progress', function(ev) {
     if (shakaPlayers[ev.target.id]) {
@@ -59,11 +63,14 @@ function initDashPlayer(conf, videoelemid, donecb) {
     }
   });
 
+  console.log(conf.manifest);
+
   shakap.load(conf.manifest).then(function(ev) {
     videoelem.muted = true;
     shakap.setMaxHardwareResolution(600, 600);
     videoelem.play();
     donecb(videoelem);
+    console.log(`${conf.manifest} play()`)
   }).catch(function(e) { console.log("Error: ", e); });
 }
 
@@ -85,6 +92,7 @@ function onWaiting(ev) {
 
 function onPlaying(ev) {
   ev.target.className = ev.target.className.replace("video-buffering", "");
+//  ev.target.className = ev.target.className.replace("audio-buffering", "");
 }
 
 function initViewPort(conf, videoelemid) {
@@ -108,13 +116,32 @@ function initViewPortRow(row, numcols, config) {
   }
 }
 
+function initCommonAudio(config) {
+    conf = config["common"][0];
+    console.dir(conf);
+    audioelemid = "va0";  // default id
+    if (conf) {
+      initPlayer(conf, audioelemid, function(audioelem) {
+        console.log(audioelemid + " loaded!");
+        audioelem.addEventListener("click", onVideoClick);
+        audioelem.addEventListener("waiting", onWaiting);
+        audioelem.addEventListener("playing", onPlaying);
+        //var titleelem = document.getElementById(videoelemid+'-title');
+        //titleelem.innerHTML = conf.title;
+      });
+    }
+}
+
 function activateViewPort(videoelemid) {
   if (activeViewPort) {
+    console.log(`activeViewPort ${activeViewPort}`);
     currentActiveVideoElem = document.getElementById(activeViewPort);
     currentActiveVideoElem.className = currentActiveVideoElem.className.replace("video-unmuted", "");
     currentActiveVideoElem.muted = true;
   }
   if (activeViewPort != videoelemid) {
+    console.log(`activeViewPort ${activeViewPort}`);
+
     newActiveVideoElem = document.getElementById(videoelemid);
     newActiveVideoElem.className += " video-unmuted";
     newActiveVideoElem.muted = false;
@@ -126,6 +153,9 @@ function activateViewPort(videoelemid) {
 
 function togglePlayback(videoelem) {
   if (videoelem.paused) {
+
+    console.log(`togglePlayback play ${videoelem}`);
+
     videoelem.play();
   } else {
     videoelem.pause();
@@ -137,8 +167,13 @@ function togglePlaybackOnAllViewPorts() {
     for(var j=0; j<4; j++) {
       var videoelem = document.getElementById('vp'+i+j);
       togglePlayback(videoelem);
+      console.log(`togglePlaybackOnAllViewPorts ${videoelem}`);
     }
   }
+
+  var audioelem = document.getElementById('va0');
+  togglePlayback(audioelem);
+  console.log(`togglePlaybackOnAudio ${audioelem}`);
   //togglePlayback(document.getElementById('vpleft')); 
   //togglePlayback(document.getElementById('vpright')); 
 }
@@ -146,6 +181,7 @@ function togglePlaybackOnAllViewPorts() {
 function initMultiView(config) {
   if (config) {
     shaka.polyfill.installAll();
+    initCommonAudio(config);
     initViewPortRow(0, 4, config);
     initViewPortRow(1, 4, config);
     initViewPortRow(2, 4, config);
@@ -186,6 +222,7 @@ function onKeyPress(ev) {
     }
     videoelemid = 'vp' + row + idx;
     activateViewPort(videoelemid);
+    console.log(`activate vp ${videoelemid}`);
   }
 }
 

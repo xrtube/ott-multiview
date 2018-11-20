@@ -10,6 +10,7 @@ const path = require('path');
 function initiateDefaultConf() {
   return {
     "main": [],
+    "common": [],
     "row0": [],
     "row1": [],
     "row2": [],
@@ -23,12 +24,13 @@ router.get('/', function(req, res) {
   var confobj = initiateDefaultConf();
   if(conf) {
     var confpath = '../config/'+conf;
-    console.log("Loading config " + confpath);
+    // console.log("Loading config " + confpath);
     if (fs.existsSync(path.join(__dirname, confpath))) {
       var confobj = JSON.parse(fs.readFileSync(path.join(__dirname, confpath), 'utf8'));
+      // console.dir(confobj);
     }
   }
-  res.render('index', { title: 'Trustfarm Multiview', conf: JSON.stringify(confobj) });
+  res.render('index', { title: 'Trustfarm XRTube Multiview', conf: JSON.stringify(confobj) });
 });
 
 module.exports = router;

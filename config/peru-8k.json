@@ -1,11 +1,17 @@
 {
   "main": [
     { "title": "Preview",
-      "manifest": "http://lab.xrtube.net:2080/dash/out/00018_Peru%208K%20HDR%2060FPS%20(FUHD).mkv/preview.mp4/manifest.mpd",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00018_Peru%208K%20HDR%2060FPS%20(FUHD).mkv/a_128k.mp4/manifest.mpd",
       "type": "dash"
     },
     { "title": "Merge",
       "manifest": "http://lab.xrtube.net:2080/dash/out/00018_Peru%208K%20HDR%2060FPS%20(FUHD).mkv/v_1684k_0x1.mp4/manifest.mpd",
+      "type": "dash"
+    }
+  ],
+  "common": [
+    { "title": "Audio",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00018_Peru%208K%20HDR%2060FPS%20(FUHD).mkv/a_128k.mp4/manifest.mpd",
       "type": "dash"
     }
   ],
