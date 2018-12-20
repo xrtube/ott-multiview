@@ -1,20 +1,51 @@
 html {
-  background-color: #000;
+    background-color: #000;
 }
 
 body {
-  padding: 0px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #000;
-  color: #fff;
+    margin: 0px;
+    padding: 0px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: #000;
+    color: #fff;  
 }
 
-a {
-  color: #00B7FF;
+.table {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    white-space: nowrap;
+    letter-spacing:-5px;
+    width: 1920px;
+    height: 1080px;
 }
 
-th {
-  padding: 0.3em;
+.row {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    width: 1920px; 
+    height: 270px; 
+    /*border: 1px solid blue;*/
+    white-space: nowrap;
+}
+
+.item {
+    position: relative;
+    display: inline-block;
+    margin: 0px;
+    padding: 0px;
+    width: 480px;
+    height: 270px; 
+    vertical-align: middle; 
+    /*border: 1px solid red;*/
+    letter-spacing:0px;
+}
+
+video {
+  width: 100%;
+  min-height: 200px;
+  border: 1px solid #777777;
 }
 
 .videoInfo {
@@ -35,41 +66,14 @@ th {
   font-size: 8px;
 }
 
-.vp {
-  border: 1px solid #fff;
-  min-height: 200px;
-  padding: 0px;
-  text-align: center;
-}
-
-.info {
-  background: url('../images/eyevinn-logo-square.png');
-  background-color: #fff;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: auto 280px;
-  min-height: 280px;
-  color: #000;
-  text-align: center;
-  padding: 2px;
-}
-
-.vp-large {
-  min-height: 280px;
-}
-
-video {
-  width: 100%;
-  min-height: 200px;
-  border: 1px solid #777777;
-}
-
 .video-active {
   opacity: 1;
+  visibility:none;
 }
 
 .video-paused {
   opacity: 0.5;
+  visibility:hidden;
 }
 
 .video-buffering {
@@ -109,3 +113,41 @@ video {
   background-color: #000;
 }
 
+audio {
+  width: 100%;
+  border: 1px solid #777777;
+  display: none;
+}
+
+.audio_row {
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  width: 1920px; 
+  height: 50px; 
+  /*border: 1px solid blue;*/
+  white-space: nowrap;
+}
+
+.audio_item {
+  position: relative;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+  width: 960px;
+  height: 50px; 
+  vertical-align: middle; 
+  /*border: 1px solid red;*/
+  letter-spacing:0px;
+}
+
+.audio_noitem {
+  position: relative;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+  width: 480px; 
+  height: 50px; 
+  vertical-align: middle; 
+  letter-spacing:0px;
+}

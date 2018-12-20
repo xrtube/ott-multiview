@@ -1,104 +1,156 @@
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title><%= title %></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel='stylesheet' href='stylesheets/style.css' />
-  </head>
-  <body>
-    <div class="col-md-12" id="multiview">
-      <div class="row">
-        <div class="col-md-4 vp vp-large" id="vp-left">
-          <div class="videoInfo tiny"></div>
-          <video id="vpleft"></video>
-          <div class="tiny overlay" id="vpleft-meta"></div>
-          <div id="vpleft-title"></div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel='stylesheet' href='stylesheets/style.css' />
+</head>
+<body>
+  <div class="col-md-12 table" id="table">
+    <div class="row">
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp00" class="video-paused"></video>
+            <div class="shortcut">1</div>
         </div>
-        <div class="col-md-4 info">
-          <p class="tiny">Based on hls.js and ShakaPlayer</p>
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp01" class="video-paused"></video>
+            <div class="shortcut">2</div>    
         </div>
-        <div class="col-md-4 vp vp-large">
-          <div class="videoInfo tiny"></div>
-          <video id="vpright"></video>
-          <div class="tiny overlay" id="vpright-meta"></div>
-          <div id="vpright-title"></div>
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp02" class="video-paused"></video>
+            <div class="shortcut">3</div>    
         </div>
-        <div><p class="tiny text-center">Click on viewport to activate audio | SPACE - pause/resume | F - toggle fullscreen | 1-8 - activate viewport</p>
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp03" class="video-paused"></video>
+            <div class="shortcut">4</div>    
         </div>
-        <div id="audioMeter"></div>
-      </div>
-      <div class="row">
-        <div class="col-md-3 vp">
-          <div class="videoInfo tiny"></div>
-          <video id="vp00" class="video-active"></video>
-          <div class="shortcut">1</div>
-          <div class="tiny overlay" id="vp00-meta"></div>
-          <div class="title" id="vp00-title"></div>
-        </div>
-        <div class="col-md-3 vp">
-          <div class="videoInfo tiny"></div>
-          <video id="vp01" class="video-active"></video>
-          <div class="shortcut">2</div>
-          <div class="tiny overlay" id="vp01-meta"></div>
-          <div class="title" id="vp01-title"></div>
-        </div>
-        <div class="col-md-3 vp">
-          <div class="videoInfo tiny"></div>
-          <video id="vp02" class="video-active"></video>
-          <div class="shortcut">3</div>
-          <div class="tiny overlay" id="vp02-meta"></div>
-          <div class="title" id="vp02-title"></div>
-        </div>
-        <div class="col-md-3 vp">
-          <div class="videoInfo tiny"></div>
-          <video id="vp03" class="video-active"></video>
-          <div class="shortcut">4</div>
-          <div class="tiny overlay" id="vp03-meta"></div>
-          <div class="title" id="vp03-title"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3 vp">
-          <div class="videoInfo tiny"></div>
-          <video id="vp10" class="video-active"></video>
-          <div class="shortcut">5</div>
-          <div class="tiny overlay" id="vp10-meta"></div>
-          <div class="title" id="vp10-title"></div>
-        </div>
-        <div class="col-md-3 vp">
-          <div class="videoInfo tiny"></div>
-          <video id="vp11" class="video-active"></video>
-          <div class="shortcut">6</div>
-          <div class="tiny overlay" id="vp11-meta"></div>
-          <div class="title" id="vp11-title"></div>
-        </div>
-        <div class="col-md-3 vp">
-          <div class="videoInfo tiny"></div>
-          <video id="vp12" class="video-active"></video>
-          <div class="shortcut">7</div>
-          <div class="tiny overlay" id="vp12-meta"></div>
-          <div class="title" id="vp12-title"></div>
-        </div>
-        <div class="col-md-3 vp">
-          <div class="videoInfo tiny"></div>
-          <video id="vp13" class="video-active"></video>
-          <div class="shortcut">8</div>
-          <div class="tiny overlay" id="vp13-meta"></div>
-          <div class="title" id="vp13-title"></div>
-        </div>
-      </div>
-
     </div>
-    <script src="javascripts/hls.min.js" type="text/javascript"></script>
-    <script src="javascripts/shaka-player.compiled.js" type="text/javascript"></script>
-    <script src="javascripts/viewer.js" type="text/javascript"></script>
-    <script src="javascripts/hover.js" type="text/javascript"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script type="text/javascript">
-      document.addEventListener("DOMContentLoaded", function(event) {
+    <div class="row">
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp10" class="video-paused"></video>
+            <div class="shortcut">5</div>    
+        </div>
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp11" class="video-paused"></video>
+            <div class="shortcut">6</div>
+        </div>
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp12" class="video-paused"></video>
+            <div class="shortcut">7</div>
+        </div>
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp13" class="video-paused"></video>
+            <div class="shortcut">8</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp20" class="video-paused"></video>
+            <div class="shortcut">9</div>
+        </div>
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp21" class="video-paused"></video>
+            <div class="shortcut">10</div>
+        </div>
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp22" class="video-paused"></video>
+            <div class="shortcut">11</div>
+        </div>
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp23" class="video-paused"></video>
+            <div class="shortcut">12</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp30" class="video-paused"></video>
+            <div class="shortcut">13</div>
+        </div>
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp31" class="video-paused"></video>
+            <div class="shortcut">14</div>
+        </div>
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp32" class="video-paused"></video>
+            <div class="shortcut">15</div>
+        </div>
+        <div class="item">
+            <div class="videoInfo tiny"></div>
+            <video id="vp33" class="video-paused"></video>
+            <div class="shortcut">16</div>
+        </div>
+    </div>
+    <div class="audio_row">
+        <div class="audio_noitem">&nbsp;</div>
+        <div class="audio_item">
+            <audio id="audio" class="audio-active" style="height:50px;" autoplay controls></audio>
+        </div>
+        <div class="audio_noitem">&nbsp;</div>
+    </div>
+  </div> 
+
+  <script src="javascripts/hls.min.js" type="text/javascript"></script>
+  <script src="javascripts/shaka-player.compiled.js" type="text/javascript"></script>
+  <script src="javascripts/viewer.js" type="text/javascript"></script>
+  <script src="javascripts/hover.js" type="text/javascript"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(event) {
         initMultiView(<%- conf %>);
         initKeyControls();
-      });
-    </script>
-  </body>
-  </html>
+
+        if($(window).width() < 1920){
+            togglePlaybackOnCenterViewPorts();
+        } else {
+            togglePlaybackOnAllViewPorts();
+        } 
+
+        setTimeout(
+            function(){ 
+            var center_width = $(document).width()/2;
+            var center_heigt = $(document).height()/2;
+
+            var win_half_width = $(window).width()/2;
+            var win_half_heigt = $(window).height()/2;
+
+            var left = 0;
+            var left_width_pos = center_width - win_half_width;
+
+            var top = 0;
+            var top_heigt_pos = center_heigt - win_half_heigt;
+
+            if (top < top_heigt_pos){
+                $(window).scrollTop(top_heigt_pos);
+            }
+            if (left < left_width_pos){
+                $(window).scrollLeft(left_width_pos);
+            }
+
+            //initScrollControls();
+        }, 3000);
+
+        setTimeout(
+            function(){ 
+            initScrollControls();
+        }, 5000);
+    });
+  </script>
+</body>
+</html>

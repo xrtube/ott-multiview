@@ -54,17 +54,26 @@ function initDashPlayer(conf, videoelemid, donecb) {
     if (shakaPlayers[ev.target.id]) {
       var p = shakaPlayers[ev.target.id];
       var stats = p.getStats();
-      var metaelem = document.getElementById(ev.target.id + '-meta');
-      metaelem.innerHTML = (stats.streamBandwidth / 1000).toFixed(0) + 'kbps';
+      //var metaelem = document.getElementById(ev.target.id + '-meta');
+      //metaelem.innerHTML = (stats.streamBandwidth / 1000).toFixed(0) + 'kbps';
     }
   });
 
-  shakap.load(conf.manifest).then(function(ev) {
-    videoelem.muted = true;
-    shakap.setMaxHardwareResolution(600, 600);
-    videoelem.play();
-    donecb(videoelem);
-  }).catch(function(e) { console.log("Error: ", e); });
+  if(videoelemid=="audio"){
+    shakap.load(conf.manifest).then(function(ev) {
+      //videoelem.muted = true;
+      //shakap.setMaxHardwareResolution(600, 600);
+      //videoelem.play();
+      //donecb(videoelem);
+    }).catch(function(e) { console.log("Error: ", e); });
+  } else {
+    shakap.load(conf.manifest).then(function(ev) {
+      videoelem.muted = true;
+      shakap.setMaxHardwareResolution(600, 600);
+      //videoelem.play();
+      donecb(videoelem);
+    }).catch(function(e) { console.log("Error: ", e); });
+  }
 }
 
 function initPlayer(conf, videoelemid, donecb) {
@@ -93,8 +102,8 @@ function initViewPort(conf, videoelemid) {
     videoelem.addEventListener("click", onVideoClick);
     videoelem.addEventListener("waiting", onWaiting);
     videoelem.addEventListener("playing", onPlaying);
-    var titleelem = document.getElementById(videoelemid+'-title');
-    titleelem.innerHTML = conf.title;
+    //var titleelem = document.getElementById(videoelemid+'-title');
+    //titleelem.innerHTML = conf.title;
   });
 }
 
@@ -118,6 +127,7 @@ function activateViewPort(videoelemid) {
     newActiveVideoElem = document.getElementById(videoelemid);
     newActiveVideoElem.className += " video-unmuted";
     newActiveVideoElem.muted = false;
+    
     activeViewPort = videoelemid;
   } else {
     activeViewPort = undefined;
@@ -125,22 +135,49 @@ function activateViewPort(videoelemid) {
 }
 
 function togglePlayback(videoelem) {
+  var playPromise;
   if (videoelem.paused) {
-    videoelem.play();
+    playPromise = videoelem.play();
   } else {
-    videoelem.pause();
+    playPromise = videoelem.pause();
+  }
+
+  if (playPromise !== undefined) {
+    playPromise.then(_ => {
+      console.log("playing is sucess!");
+    })
+    .catch(error => {
+      console.log("playing is fail!"+ error);
+    });
   }
 }
 
 function togglePlaybackOnAllViewPorts() {
-  for(var i=0; i<2; i++) {
+  for(var i=0; i<4; i++) {
     for(var j=0; j<4; j++) {
       var videoelem = document.getElementById('vp'+i+j);
+      console.log("vp"+i+j+" loaded!");
+      videoelem.className="video-active";
       togglePlayback(videoelem);
     }
   }
-  togglePlayback(document.getElementById('vpleft')); 
-  togglePlayback(document.getElementById('vpright')); 
+  //togglePlayback(document.getElementById('vpleft')); 
+  //togglePlayback(document.getElementById('vpright')); 
+  togglePlayback(document.getElementById('audio')); 
+}
+
+function togglePlaybackOnCenterViewPorts() {
+  for(var i=1; i<3; i++) {
+    for(var j=1; j<3; j++) {
+      var videoelem = document.getElementById('vp'+i+j);
+      console.log("vp"+i+j+" loaded!");
+      videoelem.className="video-active";
+      togglePlayback(videoelem);
+    }
+  }
+  //togglePlayback(document.getElementById('vpleft')); 
+  //togglePlayback(document.getElementById('vpright')); 
+  togglePlayback(document.getElementById('audio')); 
 }
 
 function initMultiView(config) {
@@ -148,11 +185,19 @@ function initMultiView(config) {
     shaka.polyfill.installAll();
     initViewPortRow(0, 4, config);
     initViewPortRow(1, 4, config);
-    if(config['row0'][0]) { 
-      initViewPort(config['row0'][0], 'vpleft');
+    initViewPortRow(2, 4, config);
+    initViewPortRow(3, 4, config);
+
+    /*
+    if(config['main'][0]) { 
+      initViewPort(config['main'][0], 'vpleft');
     }
-    if(config['row1'][0]) { 
-      initViewPort(config['row1'][0], 'vpright');
+    if(config['main'][1]) { 
+      initViewPort(config['main'][1], 'vpright');
+    }
+    */
+    if(config['main'][2]) { 
+      initViewPort(config['main'][2], 'audio');
     }
   }
 }
@@ -161,9 +206,16 @@ function onKeyPress(ev) {
   if (ev.keyCode == 32) {
     // space
     console.log('operator hit space');
-    togglePlaybackOnAllViewPorts();
+  
+    if(window.innerWidth < 1920){
+      togglePlaybackOnCenterViewPorts();
+      initScrollControls();
+    } else {
+      togglePlaybackOnAllViewPorts();
+    } 
+    
     ev.preventDefault();
-    ev.stopPropagation();
+    //ev.pausePropagation();
   } else if (ev.keyCode == 102) {
     // f
     if (document.fullscreenElement) {
@@ -184,6 +236,98 @@ function onKeyPress(ev) {
   }
 }
 
+function onScroll(ev) {
+  var top = this.scrollY, left = this.scrollX;
+  console.log('Scroll X: ' + left + 'px');
+  console.log('Scroll Y: ' + top + 'px');
+
+  var videoelem = null;
+  if(top>135){
+    videoelem = document.getElementById('vp00');
+    videoelem.className="video-paused";
+    videoelem = document.getElementById('vp01');
+    videoelem.className="video-paused";
+    videoelem = document.getElementById('vp02');
+    videoelem.className="video-paused";
+    videoelem = document.getElementById('vp03');
+    videoelem.className="video-paused";
+  } else {
+    videoelem = document.getElementById('vp00');
+    videoelem.className="video-active";
+    videoelem = document.getElementById('vp01');
+    videoelem.className="video-active";
+    videoelem = document.getElementById('vp02');
+    videoelem.className="video-active";
+    videoelem = document.getElementById('vp03');
+    videoelem.className="video-active";
+  }
+
+  if(top+window.innerHeight > 1080){
+    videoelem = document.getElementById('vp30');
+    videoelem.className="video-active";
+    videoelem = document.getElementById('vp31');
+    videoelem.className="video-active";
+    videoelem = document.getElementById('vp32');
+    videoelem.className="video-active";
+    videoelem = document.getElementById('vp33');
+    videoelem.className="video-active";
+  } else {
+    videoelem = document.getElementById('vp30');
+    videoelem.className="video-paused";
+    videoelem = document.getElementById('vp31');
+    videoelem.className="video-paused";
+    videoelem = document.getElementById('vp32');
+    videoelem.className="video-paused";
+    videoelem = document.getElementById('vp33');
+    videoelem.className="video-paused";
+  }
+
+  if(left>240){
+    //videoelem = document.getElementById('vp00');
+    //videoelem.className="video-paused";
+    videoelem = document.getElementById('vp10');
+    videoelem.className="video-paused";
+    videoelem = document.getElementById('vp20');
+    videoelem.className="video-paused";
+    //videoelem = document.getElementById('vp30');
+    //videoelem.className="video-paused";
+  } else {
+    //videoelem = document.getElementById('vp00');
+    //videoelem.className="video-active";
+    videoelem = document.getElementById('vp10');
+    videoelem.className="video-active";
+    videoelem = document.getElementById('vp20');
+    videoelem.className="video-active";
+    //videoelem = document.getElementById('vp30');
+    //videoelem.className="video-active";
+  }
+
+  if(left+window.innerWidth> 1920){
+    //videoelem = document.getElementById('vp03');
+    //videoelem.className="video-active";
+    videoelem = document.getElementById('vp13');
+    videoelem.className="video-active";
+    videoelem = document.getElementById('vp23');
+    videoelem.className="video-active";
+    //videoelem = document.getElementById('vp33');
+    //videoelem.className="video-active";
+  } else {
+    //videoelem = document.getElementById('vp03');
+    //videoelem.className="video-paused";
+    videoelem = document.getElementById('vp13');
+    videoelem.className="video-paused";
+    videoelem = document.getElementById('vp23');
+    videoelem.className="video-paused";
+    //videoelem = document.getElementById('vp33');
+    //videoelem.className="video-paused";
+  }
+
+}
+
 function initKeyControls() {
   document.addEventListener("keypress", onKeyPress, false);
+}
+
+function initScrollControls() {
+  window.addEventListener("scroll", onScroll, false);
 }
