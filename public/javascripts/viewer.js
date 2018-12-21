@@ -67,8 +67,27 @@ function initDashPlayer(conf, videoelemid, donecb) {
       //donecb(videoelem);
     }).catch(function(e) { console.log("Error: ", e); });
   } else {
+    var offset = 0;
+    if(videoelemid=="vp00") offset = 2;
+    /*else if(videoelemid=="vp01") offset = 240;
+    else if(videoelemid=="vp02") offset = 230;
+    else if(videoelemid=="vp03") offset = 220;
+    else if(videoelemid=="vp10") offset = 210;
+    else if(videoelemid=="vp11") offset = 200;
+    else if(videoelemid=="vp12") offset = 190;
+    else if(videoelemid=="vp13") offset = 180;
+    else if(videoelemid=="vp20") offset = 170;
+    else if(videoelemid=="vp21") offset = 160;
+    else if(videoelemid=="vp22") offset = 150;
+    else if(videoelemid=="vp23") offset = 140;
+    else if(videoelemid=="vp30") offset = 130;
+    else if(videoelemid=="vp31") offset = 120;
+    else if(videoelemid=="vp32") offset = 110;
+    else if(videoelemid=="vp33") offset = 100;*/
+
     shakap.load(conf.manifest).then(function(ev) {
       videoelem.muted = true;
+      shakap.setDelay = offset;
       shakap.setMaxHardwareResolution(600, 600);
       //videoelem.play();
       donecb(videoelem);
@@ -85,6 +104,7 @@ function initPlayer(conf, videoelemid, donecb) {
 }
 
 function onVideoClick(ev) {
+  console.log("videoelemid: "+ev.target.id);
   activateViewPort(ev.target.id);
 }
 
@@ -118,17 +138,38 @@ function initViewPortRow(row, numcols, config) {
 }
 
 function activateViewPort(videoelemid) {
+  var table =  document.getElementById("table");
+  table.style.left = "0px";
+  table.style.top = "0px";
+
   if (activeViewPort) {
     currentActiveVideoElem = document.getElementById(activeViewPort);
     currentActiveVideoElem.className = currentActiveVideoElem.className.replace("video-unmuted", "");
-    currentActiveVideoElem.muted = true;
+    //currentActiveVideoElem.muted = true;
   }
   if (activeViewPort != videoelemid) {
     newActiveVideoElem = document.getElementById(videoelemid);
     newActiveVideoElem.className += " video-unmuted";
-    newActiveVideoElem.muted = false;
-    
+    //newActiveVideoElem.muted = false;
     activeViewPort = videoelemid;
+
+    var itemRect = newActiveVideoElem.getBoundingClientRect();
+    var itemWidth = (itemRect.right - itemRect.left);
+    var itemHeight = (itemRect.bottom - itemRect.top);
+    console.log("itemRect Top: " + itemRect.top + " Left: " + itemRect.left + " Width: " + itemWidth + " Height: " + itemHeight);
+
+    var tableRect =  table.getBoundingClientRect();
+    var tableWidth = (tableRect.right - tableRect.left);
+    var tableHeight = (tableRect.bottom - tableRect.top);
+    console.log("tableRect Top: " + tableRect.top + " Left: " + tableRect.left + " Width: " + tableWidth + " Height: " + tableHeight);
+
+    var left = 0, top = 0;
+    left = -(itemRect.left - (tableWidth/2-itemWidth/2));
+    top = -(itemRect.top - (tableHeight/2-itemHeight/2));
+    console.log("current Top: " + top + " Left: " + left );
+
+    table.style.left = left + "px";
+    table.style.top = top + "px";
   } else {
     activeViewPort = undefined;
   }
@@ -232,6 +273,7 @@ function onKeyPress(ev) {
       row = 1;
     }
     videoelemid = 'vp' + row + idx;
+    console.log("videoelemid: "+videoelemid);
     activateViewPort(videoelemid);
   }
 }
@@ -321,7 +363,6 @@ function onScroll(ev) {
     //videoelem = document.getElementById('vp33');
     //videoelem.className="video-paused";
   }
-
 }
 
 function initKeyControls() {
@@ -329,5 +370,5 @@ function initKeyControls() {
 }
 
 function initScrollControls() {
-  window.addEventListener("scroll", onScroll, false);
+  //window.addEventListener("scroll", onScroll, false);
 }

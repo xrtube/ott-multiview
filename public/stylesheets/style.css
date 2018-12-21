@@ -1,144 +1,144 @@
 html {
-    background-color: #000;
+  background-color: #000;
 }
 
 body {
-    margin: 0px;
-    padding: 0px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-    background-color: #000;
-    color: #fff;  
+  margin: 0px;
+  padding: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #000;
+  color: #fff;  
 }
 
 .table {
-    position: relative;
-    margin: 0px;
-    padding: 0px;
-    white-space: nowrap;
-    letter-spacing:-5px;
-    width: 1920px;
-    height: 1080px;
-}
-
-.row {
-    position: relative;
-    margin: 0px;
-    padding: 0px;
-    width: 1920px; 
-    height: 270px; 
-    /*border: 1px solid blue;*/
-    white-space: nowrap;
-}
-
-.item {
-    position: relative;
-    display: inline-block;
-    margin: 0px;
-    padding: 0px;
-    width: 480px;
-    height: 270px; 
-    vertical-align: middle; 
-    /*border: 1px solid red;*/
-    letter-spacing:0px;
-}
-
-video {
-  width: 100%;
-  min-height: 200px;
-  border: 1px solid #777777;
-}
-
-.videoInfo {
-  background-color: rgba(0,0,0,0.80);
-  border-radius: 5%;
-  padding-top: 1em;
-  padding-left: 1em;
-  padding-bottom: 1em;
-  z-index: 1000;
-  position: absolute;
-  width: 60%;
-  height: auto;
-  left: 20%;
-  top: 10%;
-}
-
-.tiny {
-  font-size: 8px;
-}
-
-.video-active {
-  opacity: 1;
-  visibility:none;
-}
-
-.video-paused {
-  opacity: 0.5;
-  visibility:hidden;
-}
-
-.video-buffering {
-  border: 3px solid red;
-}
-
-.video-unmuted {
-  border: 3px solid green;
-}
-
-.title {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0px;
-  position: relative;
-  bottom: 10px;
-}
-
-.overlay {
-  position: relative;
-  width: 100%;
-  top: -20px;
-  background-color: #000;
-  opacity: 0.8;
-  z-index: 20;
-}
-
-.shortcut {
-  z-index: 15;
-  font-size: 8px;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  border: 1px solid;
-  padding: 3px;
-  background-color: #000;
-}
-
-audio {
-  width: 100%;
-  border: 1px solid #777777;
-  display: none;
-}
-
-.audio_row {
   position: relative;
   margin: 0px;
   padding: 0px;
-  width: 1920px; 
-  height: 50px; 
+  white-space: nowrap;
+  letter-spacing:-5px;
+  width: 100%;
+  height: 100%;
+}
+
+.row {
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  width: 100%; 
+  height: 25%; 
   /*border: 1px solid blue;*/
   white-space: nowrap;
 }
 
-.audio_item {
+.item {
   position: relative;
   display: inline-block;
   margin: 0px;
   padding: 0px;
-  width: 960px;
-  height: 50px; 
+  width: 25%;
+  height: 25%; 
   vertical-align: middle; 
   /*border: 1px solid red;*/
   letter-spacing:0px;
+}
+
+video {
+width: 100%;
+min-height: 200px;
+border: 1px solid #777777;
+}
+
+.videoInfo {
+background-color: rgba(0,0,0,0.80);
+border-radius: 5%;
+padding-top: 1em;
+padding-left: 1em;
+padding-bottom: 1em;
+z-index: 1000;
+position: absolute;
+width: 60%;
+height: auto;
+left: 20%;
+top: 10%;
+}
+
+.tiny {
+font-size: 8px;
+}
+
+.video-active {
+opacity: 1;
+visibility:none;
+}
+
+.video-paused {
+opacity: 0.5;
+visibility:hidden;
+}
+
+.video-buffering {
+border: 3px solid red;
+}
+
+.video-unmuted {
+border: 3px solid green;
+}
+
+.title {
+width: 90%;
+margin-left: auto;
+margin-right: auto;
+margin-top: 0px;
+position: relative;
+bottom: 10px;
+}
+
+.overlay {
+position: relative;
+width: 100%;
+top: -20px;
+background-color: #000;
+opacity: 0.8;
+z-index: 20;
+}
+
+.shortcut {
+z-index: 15;
+font-size: 8px;
+position: absolute;
+right: 10px;
+top: 10px;
+border: 1px solid;
+padding: 3px;
+background-color: #000;
+}
+
+audio {
+width: 100%;
+border: 1px solid #777777;
+display: none;
+}
+
+.audio_row {
+position: relative;
+margin: 0px;
+padding: 0px;
+width: 100%; 
+height: 50px; 
+/*border: 1px solid blue;*/
+white-space: nowrap;
+}
+
+.audio_item {
+position: relative;
+display: inline-block;
+margin: 0px;
+padding: 0px;
+width: 50%;
+height: 50px; 
+vertical-align: middle; 
+/*border: 1px solid red;*/
+letter-spacing:0px;
 }
 
 .audio_noitem {
@@ -146,7 +146,7 @@ audio {
   display: inline-block;
   margin: 0px;
   padding: 0px;
-  width: 480px; 
+  width: 25%; 
   height: 50px; 
   vertical-align: middle; 
   letter-spacing:0px;
