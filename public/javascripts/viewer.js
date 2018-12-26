@@ -243,20 +243,62 @@ function initMultiView(config) {
   }
 }
 
+//var currFFZoom = 1;
+//var currIEZoom = 0;
+var speed = 4;
+var currZoom = 0;
+
 function onKeyPress(ev) {
+  console.log('event keyCode: '+ev.keyCode);
   if (ev.keyCode == 32) {
     // space
     console.log('operator hit space');
   
     if(window.innerWidth < 1920){
       togglePlaybackOnCenterViewPorts();
-      initScrollControls();
+      //initScrollControls();
     } else {
       togglePlaybackOnAllViewPorts();
     } 
     
     ev.preventDefault();
     //ev.pausePropagation();
+  } else if (ev.keyCode == 43) {
+    // space
+    console.log('operator hit pageup');
+    var table =  document.getElementById("table");
+    currZoom += 0.5;
+    table.style.transform = "scale("+currZoom+")";
+    console.log("table.style.transform: " + table.style.transform);
+    /*
+    console.log("tableRect width: " + table.style.width + " Height: " + table.style.height);
+    table.style.width = (table.style.width + speed) + 'px';
+    table.style.height = (table.style.height + speed) + 'px';
+    console.log("tableRect width: " + table.style.width + " Height: " + table.style.height);
+    
+    var tableRect =  table.getBoundingClientRect();
+    var tableWidth = (tableRect.right - tableRect.left);
+    var tableHeight = (tableRect.bottom - tableRect.top);
+    console.log("tableRect Top: " + tableRect.top + " Left: " + tableRect.left + " Width: " + tableWidth + " Height: " + tableHeight);
+    */
+  } else if (ev.keyCode == 95) {
+    // space
+    console.log('operator hit pagedown');
+    var table =  document.getElementById("table");
+    currZoom -= 0.5;
+    table.style.transform = "scale("+currZoom+")";
+    console.log("table.style.transform: " + table.style.transform);
+    /*
+    console.log("tableRect width: " + table.style.width + " Height: " + table.style.height);
+    table.style.width = (table.style.width - speed) + 'px';
+    table.style.height = (table.style.height - speed) + 'px';
+    console.log("tableRect width: " + table.style.width + " Height: " + table.style.height);
+
+    var tableRect =  table.getBoundingClientRect();
+    var tableWidth = (tableRect.right - tableRect.left);
+    var tableHeight = (tableRect.bottom - tableRect.top);
+    console.log("tableRect Top: " + tableRect.top + " Left: " + tableRect.left + " Width: " + tableWidth + " Height: " + tableHeight);
+    */
   } else if (ev.keyCode == 102) {
     // f
     if (document.fullscreenElement) {
@@ -370,5 +412,5 @@ function initKeyControls() {
 }
 
 function initScrollControls() {
-  //window.addEventListener("scroll", onScroll, false);
+   window.addEventListener("scroll", onScroll, false);
 }
