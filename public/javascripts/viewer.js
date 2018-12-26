@@ -263,42 +263,22 @@ function onKeyPress(ev) {
     
     ev.preventDefault();
     //ev.pausePropagation();
-  } else if (ev.keyCode == 43) {
+  } else if (ev.keyCode == 43 || ev.keyCode == 61) {
     // space
     console.log('operator hit pageup');
     var table =  document.getElementById("table");
     currZoom += 0.5;
     table.style.transform = "scale("+currZoom+")";
     console.log("table.style.transform: " + table.style.transform);
-    /*
-    console.log("tableRect width: " + table.style.width + " Height: " + table.style.height);
-    table.style.width = (table.style.width + speed) + 'px';
-    table.style.height = (table.style.height + speed) + 'px';
-    console.log("tableRect width: " + table.style.width + " Height: " + table.style.height);
-    
-    var tableRect =  table.getBoundingClientRect();
-    var tableWidth = (tableRect.right - tableRect.left);
-    var tableHeight = (tableRect.bottom - tableRect.top);
-    console.log("tableRect Top: " + tableRect.top + " Left: " + tableRect.left + " Width: " + tableWidth + " Height: " + tableHeight);
-    */
-  } else if (ev.keyCode == 95) {
+    goToCenterScreen();
+  } else if (ev.keyCode == 95 || ev.keyCode == 45) {
     // space
     console.log('operator hit pagedown');
     var table =  document.getElementById("table");
     currZoom -= 0.5;
     table.style.transform = "scale("+currZoom+")";
     console.log("table.style.transform: " + table.style.transform);
-    /*
-    console.log("tableRect width: " + table.style.width + " Height: " + table.style.height);
-    table.style.width = (table.style.width - speed) + 'px';
-    table.style.height = (table.style.height - speed) + 'px';
-    console.log("tableRect width: " + table.style.width + " Height: " + table.style.height);
-
-    var tableRect =  table.getBoundingClientRect();
-    var tableWidth = (tableRect.right - tableRect.left);
-    var tableHeight = (tableRect.bottom - tableRect.top);
-    console.log("tableRect Top: " + tableRect.top + " Left: " + tableRect.left + " Width: " + tableWidth + " Height: " + tableHeight);
-    */
+    goToCenterScreen();
   } else if (ev.keyCode == 102) {
     // f
     if (document.fullscreenElement) {
@@ -317,6 +297,27 @@ function onKeyPress(ev) {
     videoelemid = 'vp' + row + idx;
     console.log("videoelemid: "+videoelemid);
     activateViewPort(videoelemid);
+  }
+}
+
+function goToCenterScreen(){
+  var center_width = $(document).width()/2;
+  var center_heigt = $(document).height()/2;
+
+  var win_half_width = $(window).width()/2;
+  var win_half_heigt = $(window).height()/2;
+
+  var left = 0;
+  var left_width_pos = center_width - win_half_width;
+
+  var top = 0;
+  var top_heigt_pos = center_heigt - win_half_heigt;
+
+  if (top < top_heigt_pos){
+    $(window).scrollTop(top_heigt_pos);
+  }
+  if (left < left_width_pos){
+    $(window).scrollLeft(left_width_pos);
   }
 }
 

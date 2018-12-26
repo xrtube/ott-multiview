@@ -116,12 +116,13 @@
         initMultiView(<%- conf %>);
         initKeyControls();
 
-        if($(window).width() < 1920){
+        /*if($(window).width() < 1920){
             togglePlaybackOnCenterViewPorts();
         } else {
             togglePlaybackOnAllViewPorts();
-        } 
-
+        }*/
+        togglePlaybackOnAllViewPorts();
+        
         setTimeout(
             function(){ 
             var center_width = $(document).width()/2;
