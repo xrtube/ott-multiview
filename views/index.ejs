@@ -122,28 +122,30 @@
             togglePlaybackOnAllViewPorts();
         }*/
         togglePlaybackOnAllViewPorts();
-        
+
+        /*
         setTimeout(
             function(){ 
-            var center_width = $(document).width()/2;
-            var center_heigt = $(document).height()/2;
-
-            var win_half_width = $(window).width()/2;
-            var win_half_heigt = $(window).height()/2;
-
-            var left = 0;
-            var left_width_pos = center_width - win_half_width;
-
-            var top = 0;
-            var top_heigt_pos = center_heigt - win_half_heigt;
-
-            if (top < top_heigt_pos){
-                $(window).scrollTop(top_heigt_pos);
-            }
-            if (left < left_width_pos){
-                $(window).scrollLeft(left_width_pos);
-            }
+                var center_width = $(document).width()/2;
+                var center_height = $(document).height()/2;
+                console.log("current center_width: " + center_width + " center_height: " + center_height );
+                
+                var win_half_width = $(window).width()/2;
+                var win_half_height = $(window).height()/2;
+                console.log("current win_half_width: " + win_half_width + " win_half_height: " + win_half_height);
+                
+                var left_width_pos = center_width - win_half_width;
+                var top_height_pos = center_height - win_half_height;
+                console.log("current top_height_pos: " + top_height_pos + " left_width_pos: " + left_width_pos );
+            
+                if (0 < top_height_pos){
+                    $(window).scrollTop(top_height_pos);
+                }
+                if (0 < left_width_pos){
+                    $(window).scrollLeft(left_width_pos);
+                } 
         }, 3000);
+        */
     });
   </script>
 </body>

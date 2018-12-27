@@ -2,8 +2,9 @@
 // Use of this source code is governed by a MIT License
 // license that can be found in the LICENSE file.
 // Author: Jonas Birme (Eyevinn Technology)
-var activeViewPort;
+var activeViewPort = null;
 var shakaPlayers = {};
+var curZoom = 1;
 
 function initHlsPlayer(conf, videoelemid, donecb) {
   var hlsconfig = {
@@ -104,7 +105,6 @@ function initPlayer(conf, videoelemid, donecb) {
 }
 
 function onVideoClick(ev) {
-  console.log("videoelemid: "+ev.target.id);
   activateViewPort(ev.target.id);
 }
 
@@ -153,25 +153,29 @@ function activateViewPort(videoelemid) {
     //newActiveVideoElem.muted = false;
     activeViewPort = videoelemid;
 
-    var itemRect = newActiveVideoElem.getBoundingClientRect();
-    var itemWidth = (itemRect.right - itemRect.left);
-    var itemHeight = (itemRect.bottom - itemRect.top);
-    console.log("itemRect Top: " + itemRect.top + " Left: " + itemRect.left + " Width: " + itemWidth + " Height: " + itemHeight);
+    console.log("curZoom: " + curZoom);
+    //if(curZoom==1){
+      var itemRect = newActiveVideoElem.getBoundingClientRect();
+      var itemWidth = (itemRect.right - itemRect.left);
+      var itemHeight = (itemRect.bottom - itemRect.top);
+      console.log("itemRect Top: " + itemRect.top + " Left: " + itemRect.left + " Width: " + itemWidth + " Height: " + itemHeight);
 
-    var tableRect =  table.getBoundingClientRect();
-    var tableWidth = (tableRect.right - tableRect.left);
-    var tableHeight = (tableRect.bottom - tableRect.top);
-    console.log("tableRect Top: " + tableRect.top + " Left: " + tableRect.left + " Width: " + tableWidth + " Height: " + tableHeight);
+      var tableRect =  table.getBoundingClientRect();
+      var tableWidth = (tableRect.right - tableRect.left);
+      var tableHeight = (tableRect.bottom - tableRect.top);
+      console.log("tableRect Top: " + tableRect.top + " Left: " + tableRect.left + " Width: " + tableWidth + " Height: " + tableHeight);
 
-    var left = 0, top = 0;
-    left = -(itemRect.left - (tableWidth/2-itemWidth/2));
-    top = -(itemRect.top - (tableHeight/2-itemHeight/2));
-    console.log("current Top: " + top + " Left: " + left );
+      var left = 0, top = 0;
+      left = -(itemRect.left - (tableWidth/2-itemWidth/2));
+      top = -(itemRect.top - (tableHeight/2-itemHeight/2));
+      console.log("current Top: " + top + " Left: " + left );
 
-    table.style.left = left + "px";
-    table.style.top = top + "px";
+      table.style.left = left + "px";
+      table.style.top = top + "px";
+    //}
+    if(curZoom!=1) goToCenterScreen(false);
   } else {
-    activeViewPort = undefined;
+    activeViewPort = null;
   }
 }
 
@@ -243,11 +247,6 @@ function initMultiView(config) {
   }
 }
 
-//var currFFZoom = 1;
-//var currIEZoom = 0;
-var speed = 4;
-var currZoom = 0;
-
 function onKeyPress(ev) {
   console.log('event keyCode: '+ev.keyCode);
   if (ev.keyCode == 32) {
@@ -263,22 +262,26 @@ function onKeyPress(ev) {
     
     ev.preventDefault();
     //ev.pausePropagation();
-  } else if (ev.keyCode == 43 || ev.keyCode == 61) {
-    // space
-    console.log('operator hit pageup');
+  } else if (ev.keyCode == 43 || ev.keyCode == 61) { // _ (61), - (43)
+    console.log('operator hit Zoom In');
     var table =  document.getElementById("table");
-    currZoom += 0.5;
-    table.style.transform = "scale("+currZoom+")";
-    console.log("table.style.transform: " + table.style.transform);
-    goToCenterScreen();
-  } else if (ev.keyCode == 95 || ev.keyCode == 45) {
-    // space
-    console.log('operator hit pagedown');
+    if(curZoom>5) return;
+    curZoom += 0.5;
+    table.style.transform = "scale("+curZoom+")";
+
+    if (activeViewPort) activateViewPort(activeViewPort);
+    goToCenterScreen(false);
+
+  } else if (ev.keyCode == 95 || ev.keyCode == 45) { // = (95), + (45)
+    console.log('operator hit Zoom Out');
     var table =  document.getElementById("table");
-    currZoom -= 0.5;
-    table.style.transform = "scale("+currZoom+")";
-    console.log("table.style.transform: " + table.style.transform);
-    goToCenterScreen();
+    if(curZoom<=0.5) return;
+    curZoom -= 0.5;
+    table.style.transform = "scale("+curZoom+")";
+
+    if (activeViewPort) activateViewPort(activeViewPort);
+    goToCenterScreen(false);
+
   } else if (ev.keyCode == 102) {
     // f
     if (document.fullscreenElement) {
@@ -300,25 +303,28 @@ function onKeyPress(ev) {
   }
 }
 
-function goToCenterScreen(){
-  var center_width = $(document).width()/2;
-  var center_heigt = $(document).height()/2;
-
-  var win_half_width = $(window).width()/2;
-  var win_half_heigt = $(window).height()/2;
-
-  var left = 0;
-  var left_width_pos = center_width - win_half_width;
-
-  var top = 0;
-  var top_heigt_pos = center_heigt - win_half_heigt;
-
-  if (top < top_heigt_pos){
-    $(window).scrollTop(top_heigt_pos);
-  }
-  if (left < left_width_pos){
-    $(window).scrollLeft(left_width_pos);
-  }
+function goToCenterScreen(moveCenter){
+    setTimeout(
+      function(){ 
+          var center_width = $(document).width()/2;
+          var center_height = $(document).height()/2;
+          console.log("current center_width: " + center_width + " center_height: " + center_height );
+        
+          var win_half_width = $(window).width()/2;
+          var win_half_height = $(window).height()/2;
+          console.log("current win_half_width: " + win_half_width + " win_half_height: " + win_half_height);
+        
+          var left_width_pos = center_width - win_half_width;
+          var top_height_pos = center_height - win_half_height;
+          console.log("current top_height_pos: " + top_height_pos + " left_width_pos: " + left_width_pos );
+      
+          if (0 < top_height_pos){
+            $(window).scrollTop(top_height_pos);
+          }
+          if (0 < left_width_pos){
+            $(window).scrollLeft(left_width_pos);
+          } 
+      }, 500);
 }
 
 function onScroll(ev) {
