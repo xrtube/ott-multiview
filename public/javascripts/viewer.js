@@ -6,6 +6,9 @@ var activeViewPort = null;
 var shakaPlayers = {};
 var curZoom = 1;
 
+var orgTableRectWidth = 0;
+var orgTableRectHeight = 0;
+
 function initHlsPlayer(conf, videoelemid, donecb) {
   var hlsconfig = {
     capLevelToPlayerSize: true
@@ -139,9 +142,15 @@ function initViewPortRow(row, numcols, config) {
 
 function activateViewPort(videoelemid) {
   var table =  document.getElementById("table");
-  table.style.left = "0px";
-  table.style.top = "0px";
-
+  if(curZoom==1){
+    table.style.left = "0px";
+    table.style.top = "0px";
+  } else {
+    var extWidth = (orgTableRectWidth*curZoom)/2 - orgTableRectWidth/2;
+    var extHeight = (orgTableRectHeight*curZoom)/2 - orgTableRectHeight/2;
+    table.style.left = extWidth+"px";
+    table.style.top = extHeight+"px";
+  }
   if (activeViewPort) {
     currentActiveVideoElem = document.getElementById(activeViewPort);
     currentActiveVideoElem.className = currentActiveVideoElem.className.replace("video-unmuted", "");
@@ -153,27 +162,23 @@ function activateViewPort(videoelemid) {
     //newActiveVideoElem.muted = false;
     activeViewPort = videoelemid;
 
-    console.log("curZoom: " + curZoom);
-    //if(curZoom==1){
-      var itemRect = newActiveVideoElem.getBoundingClientRect();
-      var itemWidth = (itemRect.right - itemRect.left);
-      var itemHeight = (itemRect.bottom - itemRect.top);
-      console.log("itemRect Top: " + itemRect.top + " Left: " + itemRect.left + " Width: " + itemWidth + " Height: " + itemHeight);
+    var itemRect = newActiveVideoElem.getBoundingClientRect();
+    var itemWidth = (itemRect.right - itemRect.left);
+    var itemHeight = (itemRect.bottom - itemRect.top);
+    console.log("activateViewPort itemRect Top: " + itemRect.top + " Left: " + itemRect.left + " Width: " + itemWidth + " Height: " + itemHeight);
 
-      var tableRect =  table.getBoundingClientRect();
-      var tableWidth = (tableRect.right - tableRect.left);
-      var tableHeight = (tableRect.bottom - tableRect.top);
-      console.log("tableRect Top: " + tableRect.top + " Left: " + tableRect.left + " Width: " + tableWidth + " Height: " + tableHeight);
+    var tableRect =  table.getBoundingClientRect();
+    var tableWidth = (tableRect.right - tableRect.left);
+    var tableHeight = (tableRect.bottom - tableRect.top);
+    console.log("activateViewPort tableRect Top: " + tableRect.top + " Left: " + tableRect.left + " Width: " + tableWidth + " Height: " + tableHeight);
 
-      var left = 0, top = 0;
-      left = -(itemRect.left - (tableWidth/2-itemWidth/2));
-      top = -(itemRect.top - (tableHeight/2-itemHeight/2));
-      console.log("current Top: " + top + " Left: " + left );
+    var left = 0, top = 0;
+    left = -(itemRect.left - (tableWidth/2-itemWidth/2));
+    top = -(itemRect.top - (tableHeight/2-itemHeight/2));
+    console.log("activateViewPort current Top: " + top + " Left: " + left );
 
-      table.style.left = left + "px";
-      table.style.top = top + "px";
-    //}
-    if(curZoom!=1) goToCenterScreen(false);
+    table.style.left = left + "px";
+    table.style.top = top + "px";
   } else {
     activeViewPort = null;
   }
@@ -244,6 +249,14 @@ function initMultiView(config) {
     if(config['main'][2]) { 
       initViewPort(config['main'][2], 'audio');
     }
+
+    setTimeout(function(){    
+      var table =  document.getElementById("table");
+      var tableRect =  table.getBoundingClientRect();
+      orgTableRectWidth = (tableRect.right - tableRect.left);
+      orgTableRectHeight = (tableRect.bottom - tableRect.top);
+      console.log("initMultiView tableRect Width: " + orgTableRectWidth + " Height: " + orgTableRectHeight);
+    }, 500);
   }
 }
 
@@ -264,24 +277,44 @@ function onKeyPress(ev) {
     //ev.pausePropagation();
   } else if (ev.keyCode == 43 || ev.keyCode == 61) { // _ (61), - (43)
     console.log('operator hit Zoom In');
-    var table =  document.getElementById("table");
     if(curZoom>5) return;
     curZoom += 0.5;
+
+    var table =  document.getElementById("table");
     table.style.transform = "scale("+curZoom+")";
+    console.log("onKeyPress tableRect Width: " + orgTableRectWidth + " Height: " + orgTableRectHeight);
+
+    extWidth = (orgTableRectWidth*curZoom)/2 - orgTableRectWidth/2;
+    extHeight = (orgTableRectHeight*curZoom)/2 - orgTableRectHeight/2;
+    console.log("onKeyPress tableRect Width: " + extWidth + " Height: " + extHeight);
+
+    table.style.left = extWidth+"px";
+    table.style.top = extHeight+"px";
+    console.log("onKeyPress curZoom: " + curZoom);
+    console.log("onKeyPress tableRect Top: " + table.style.top + " Left: " + table.style.left);
 
     if (activeViewPort) activateViewPort(activeViewPort);
-    goToCenterScreen(false);
 
   } else if (ev.keyCode == 95 || ev.keyCode == 45) { // = (95), + (45)
     console.log('operator hit Zoom Out');
-    var table =  document.getElementById("table");
     if(curZoom<=0.5) return;
     curZoom -= 0.5;
+
+    var table =  document.getElementById("table");
     table.style.transform = "scale("+curZoom+")";
+    console.log("onKeyPress tableRect Width: " + orgTableRectWidth + " Height: " + orgTableRectHeight);
+
+    extWidth = (orgTableRectWidth*curZoom)/2 - orgTableRectWidth/2;
+    extHeight = (orgTableRectHeight*curZoom)/2 - orgTableRectHeight/2;
+    console.log("onKeyPress tableRect Width: " + extWidth + " Height: " + extHeight);
+
+    table.style.left = extWidth+"px";
+    table.style.top = extHeight+"px";
+    console.log("onKeyPress curZoom: " + curZoom);
+    console.log("onKeyPress tableRect Top: " + table.style.top + " Left: " + table.style.left);
 
     if (activeViewPort) activateViewPort(activeViewPort);
-    goToCenterScreen(false);
-
+    
   } else if (ev.keyCode == 102) {
     // f
     if (document.fullscreenElement) {
@@ -303,28 +336,20 @@ function onKeyPress(ev) {
   }
 }
 
-function goToCenterScreen(moveCenter){
-    setTimeout(
-      function(){ 
-          var center_width = $(document).width()/2;
-          var center_height = $(document).height()/2;
-          console.log("current center_width: " + center_width + " center_height: " + center_height );
-        
-          var win_half_width = $(window).width()/2;
-          var win_half_height = $(window).height()/2;
-          console.log("current win_half_width: " + win_half_width + " win_half_height: " + win_half_height);
-        
-          var left_width_pos = center_width - win_half_width;
-          var top_height_pos = center_height - win_half_height;
-          console.log("current top_height_pos: " + top_height_pos + " left_width_pos: " + left_width_pos );
-      
-          if (0 < top_height_pos){
-            $(window).scrollTop(top_height_pos);
-          }
-          if (0 < left_width_pos){
-            $(window).scrollLeft(left_width_pos);
-          } 
-      }, 500);
+function onResize(){
+    var table =  document.getElementById("table");
+    curZoom = 1;
+    table.style.transform = "scale("+curZoom+")";
+   
+    setTimeout(function(){    
+      var table =  document.getElementById("table");
+      var tableRect =  table.getBoundingClientRect();
+      orgTableRectWidth = (tableRect.right - tableRect.left);
+      orgTableRectHeight = (tableRect.bottom - tableRect.top);
+      console.log("initMultiView tableRect Width: " + orgTableRectWidth + " Height: " + orgTableRectHeight);
+
+      if (activeViewPort) activateViewPort(activeViewPort);
+    }, 500);
 }
 
 function onScroll(ev) {
@@ -419,5 +444,9 @@ function initKeyControls() {
 }
 
 function initScrollControls() {
-   window.addEventListener("scroll", onScroll, false);
+  window.addEventListener("scroll", onScroll, false);
+}
+
+function initResize() {
+  window.addEventListener("resize", onResize, false);
 }

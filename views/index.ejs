@@ -115,6 +115,7 @@
     document.addEventListener("DOMContentLoaded", function(event) {
         initMultiView(<%- conf %>);
         initKeyControls();
+        initResize();
 
         /*if($(window).width() < 1920){
             togglePlaybackOnCenterViewPorts();
