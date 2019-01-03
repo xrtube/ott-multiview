@@ -124,29 +124,41 @@
         }*/
         togglePlaybackOnAllViewPorts();
 
-        /*
-        setTimeout(
+        setInterval(
             function(){ 
-                var center_width = $(document).width()/2;
-                var center_height = $(document).height()/2;
-                console.log("current center_width: " + center_width + " center_height: " + center_height );
+                var curTime=[];
+                var maxTime=0, minTime=888888888, avgTime, accTime = 0;
+
                 
-                var win_half_width = $(window).width()/2;
-                var win_half_height = $(window).height()/2;
-                console.log("current win_half_width: " + win_half_width + " win_half_height: " + win_half_height);
-                
-                var left_width_pos = center_width - win_half_width;
-                var top_height_pos = center_height - win_half_height;
-                console.log("current top_height_pos: " + top_height_pos + " left_width_pos: " + left_width_pos );
-            
-                if (0 < top_height_pos){
-                    $(window).scrollTop(top_height_pos);
+                for(var i=0; i<4; i++) {
+                    for(var j=0; j<4; j++) {
+                        var videoelem = document.getElementById('vp'+i+j);
+                        //console.log("vp"+i+j+" current Time:"+videoelem.currentTime);
+                        curTime[i*4+j] =  videoelem.currentTime;
+                        accTime += videoelem.currentTime;
+                        if (videoelem.currentTime > maxTime) maxTime = videoelem.currentTime;
+                        if (videoelem.currentTime < minTime) minTime = videoelem.currentTime;
+                    }
                 }
-                if (0 < left_width_pos){
-                    $(window).scrollLeft(left_width_pos);
-                } 
-        }, 3000);
-        */
+                avgTime = accTime/16;
+
+                for(var i=0; i<4; i++) {
+                    for(var j=0; j<4; j++) {
+                        //if(i==0 && j==0) continue;
+                        videoelem = document.getElementById('vp'+i+j);
+                        videoelem.currentTime =  minTime;
+                        //console.log("vp"+i+j+" current Time:"+videoelem.currentTime);
+                        //curTime[i*4+j] =  videoelem.currentTime;
+                    }
+                }
+                /*    
+                for(var i=0; i<4; i++) {
+                    for(var j=0; j<4; j++) {
+                        console.log("vp"+i+j+" current Time:"+curTime[i*4+j]);
+                    }
+                }
+                */
+        }, 1000);
     });
   </script>
 </body>

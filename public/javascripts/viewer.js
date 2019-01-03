@@ -71,26 +71,28 @@ function initDashPlayer(conf, videoelemid, donecb) {
     }).catch(function(e) { console.log("Error: ", e); });
   } else {
     var offset = 0;
-    if(videoelemid=="vp00") offset = 2;
-    /*else if(videoelemid=="vp01") offset = 240;
-    else if(videoelemid=="vp02") offset = 230;
-    else if(videoelemid=="vp03") offset = 220;
-    else if(videoelemid=="vp10") offset = 210;
-    else if(videoelemid=="vp11") offset = 200;
-    else if(videoelemid=="vp12") offset = 190;
-    else if(videoelemid=="vp13") offset = 180;
-    else if(videoelemid=="vp20") offset = 170;
-    else if(videoelemid=="vp21") offset = 160;
-    else if(videoelemid=="vp22") offset = 150;
-    else if(videoelemid=="vp23") offset = 140;
-    else if(videoelemid=="vp30") offset = 130;
-    else if(videoelemid=="vp31") offset = 120;
-    else if(videoelemid=="vp32") offset = 110;
-    else if(videoelemid=="vp33") offset = 100;*/
+    /*
+    if(videoelemid=="vp00") offset = 45;
+    else if(videoelemid=="vp01") offset = 50;
+    else if(videoelemid=="vp02") offset = 55;
+    else if(videoelemid=="vp03") offset = 60;
+    else if(videoelemid=="vp10") offset = 65;
+    else if(videoelemid=="vp11") offset = 70;
+    else if(videoelemid=="vp12") offset = 75;
+    else if(videoelemid=="vp13") offset = 80;
+    else if(videoelemid=="vp20") offset = 85;
+    else if(videoelemid=="vp21") offset = 90;
+    else if(videoelemid=="vp22") offset = 95;
+    else if(videoelemid=="vp23") offset = 100;
+    else if(videoelemid=="vp30") offset = 105;
+    else if(videoelemid=="vp31") offset = 110;
+    else if(videoelemid=="vp32") offset = 115;
+    else if(videoelemid=="vp33") offset = 120;
+    */
 
     shakap.load(conf.manifest).then(function(ev) {
       videoelem.muted = true;
-      shakap.setDelay = offset;
+      //shakap.currentTime = offset;
       shakap.setMaxHardwareResolution(600, 600);
       //videoelem.play();
       donecb(videoelem);
