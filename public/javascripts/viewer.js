@@ -7,6 +7,7 @@ var shakaPlayers = {};
 var curZoom = 1;
 var orgTableRectWidth = 0;
 var orgTableRectHeight = 0;
+var allTracks = {};
 
 function initHlsPlayer(conf, videoelemid, donecb) {
   var hlsconfig = {
@@ -90,13 +91,30 @@ function initDashPlayer(conf, videoelemid, donecb) {
     else if(videoelemid=="vp33") offset = 120;
     */
 
+    shakap.configure({
+      /*abr: {
+        bandwidthDowngradeTarget: 0.1,
+        bandwidthUpgradeTarget: 0.1,
+        defaultBandwidthEstimate: 50000
+      },*/
+      streaming: {
+        bufferingGoal: 5,
+        rebufferingGoal: 2
+      }
+    });
+
     shakap.load(conf.manifest).then(function(ev) {
       videoelem.muted = true;
       //shakap.currentTime = offset;
+      shakap.minimumUpdatePeriod="PT03S";
+      //shakap.timeShiftBufferDepth = "PT50.00S";
+      //shakap.suggestedPresentationDelay = "PT50.00S";
       shakap.setMaxHardwareResolution(600, 600);
       //videoelem.play();
+      allTracks[videoelemid] = shakap.getTracks();
       donecb(videoelem);
     }).catch(function(e) { console.log("Error: ", e); });
+
   }
 }
 
@@ -152,17 +170,19 @@ function activateViewPort(videoelemid) {
     table.style.left = extWidth+"px";
     table.style.top = extHeight+"px";
   }
+  
   if (activeViewPort) {
     currentActiveVideoElem = document.getElementById(activeViewPort);
     currentActiveVideoElem.className = currentActiveVideoElem.className.replace("video-unmuted", "");
     //currentActiveVideoElem.muted = true;
+    shakaPlayers[activeViewPort].selectTrack(allTracks[activeViewPort][0]);
   }
   if (activeViewPort != videoelemid) {
     newActiveVideoElem = document.getElementById(videoelemid);
     newActiveVideoElem.className += " video-unmuted";
     //newActiveVideoElem.muted = false;
     activeViewPort = videoelemid;
-
+    
     var itemRect = newActiveVideoElem.getBoundingClientRect();
     var itemWidth = (itemRect.right - itemRect.left);
     var itemHeight = (itemRect.bottom - itemRect.top);
@@ -180,6 +200,19 @@ function activateViewPort(videoelemid) {
 
     table.style.left = left + "px";
     table.style.top = top + "px";
+ 
+    /*
+    for(var i=0; i<4; i++) {
+      for(var j=0; j<4; j++) {
+        var vid = 'vp'+i+j;
+        console.log("vid: "+vid);
+        console.log("allTracks: "+allTracks[vid]);
+        if(vid == videoelemid) shakaPlayers[vid].selectTrack(allTracks[vid][0]);
+        else shakaPlayers[vid].selectTrack(allTracks[vid][4]);
+      }
+    }
+    */
+    shakaPlayers[videoelemid].selectTrack(allTracks[videoelemid][4]);
   } else {
     activeViewPort = null;
   }
