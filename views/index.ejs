@@ -98,7 +98,7 @@
     <div class="audio_row">
         <div class="audio_noitem">&nbsp;</div>
         <div class="audio_item">
-            <audio id="audio" class="audio-active" style="height:50px;" autoplay controls></audio>
+            <audio id="audio" class="audio-paused" style="height:50px;" controls></audio>
         </div>
         <div class="audio_noitem">&nbsp;</div>
     </div>
@@ -176,15 +176,15 @@
                         //curTime[i*4+j] =  videoelem.currentTime;
 
                         var df=0;
-                        if (curTime[i*4+j] > (curAudioTime + 0.01) ) {
+                        if (curTime[i*4+j] > (curAudioTime + 0.005) ) {
                             df = (((curTime[i*4+j] - curAudioTime) * 0.5)) ;
                             pr = 1.0 - df;
-                            videoelem.playbackRate =  0.9;// pr;
+                            videoelem.playbackRate =  0.95;// pr;
                         }
-                        else if (curTime[i*4+j] < (curAudioTime - 0.01) ) {
+                        else if (curTime[i*4+j] < (curAudioTime - 0.005) ) {
                             df = (((curTime[i*4+j] - curAudioTime) * 0.5)) ;
                             pr = 1.0 + df;
-                            videoelem.playbackRate =  1.1;//pr;
+                            videoelem.playbackRate =  1.01;//pr;
                         } else {
                             videoelem.playbackRate =  pr;
                         }
@@ -205,7 +205,7 @@
                     }
                 }
                 */
-        }, 1000);
+        }, 500);
 
     });
   </script>

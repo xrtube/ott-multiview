@@ -92,14 +92,11 @@ function initDashPlayer(conf, videoelemid, donecb) {
     */
 
     shakap.configure({
-      /*abr: {
-        bandwidthDowngradeTarget: 0.1,
-        bandwidthUpgradeTarget: 0.1,
-        defaultBandwidthEstimate: 50000
-      },*/
+      abr: {
+        enabled: false
+      },
       streaming: {
-        bufferingGoal: 5,
-        rebufferingGoal: 2
+        bufferingGoal: 3
       }
     });
 
@@ -111,7 +108,7 @@ function initDashPlayer(conf, videoelemid, donecb) {
       //shakap.suggestedPresentationDelay = "PT50.00S";
       shakap.setMaxHardwareResolution(600, 600);
       //videoelem.play();
-      allTracks[videoelemid] = shakap.getTracks();
+      allTracks[videoelemid] = shakap.getVariantTracks();
       donecb(videoelem);
     }).catch(function(e) { console.log("Error: ", e); });
 
@@ -170,12 +167,22 @@ function activateViewPort(videoelemid) {
     table.style.left = extWidth+"px";
     table.style.top = extHeight+"px";
   }
+
+  var config = {};
   
   if (activeViewPort) {
     currentActiveVideoElem = document.getElementById(activeViewPort);
     currentActiveVideoElem.className = currentActiveVideoElem.className.replace("video-unmuted", "");
     //currentActiveVideoElem.muted = true;
-    shakaPlayers[activeViewPort].selectTrack(allTracks[activeViewPort][0]);
+    /*
+    config = {
+      abr: {
+        enabled: false
+      }
+    };
+    shakaPlayers[videoelemid].configure(config);
+    */
+    shakaPlayers[activeViewPort].selectVariantTrack(allTracks[activeViewPort][4], true);
   }
   if (activeViewPort != videoelemid) {
     newActiveVideoElem = document.getElementById(videoelemid);
@@ -212,13 +219,22 @@ function activateViewPort(videoelemid) {
       }
     }
     */
-    shakaPlayers[videoelemid].selectTrack(allTracks[videoelemid][4]);
+    /*
+    config = {
+      abr: {
+        enabled: false
+      }
+    };
+    shakaPlayers[videoelemid].configure(config);
+    */
+    shakaPlayers[videoelemid].selectVariantTrack(allTracks[videoelemid][0], true);
   } else {
     activeViewPort = null;
   }
 }
 
-function togglePlayback(videoelem) {
+function togglePlayback(videoelemid) {
+  var videoelem = document.getElementById(videoelemid);
   var playPromise;
   if (videoelem.paused) {
     playPromise = videoelem.play();
@@ -234,18 +250,32 @@ function togglePlayback(videoelem) {
       console.log("playing is fail!"+ error);
     });
   }
+
+  /*
+  setTimeout(function(){    
+    var config = {
+      abr: {
+        enabled: true
+      }
+    };
+    shakaPlayers[videoelemid].configure(config);
+    shakaPlayers[videoelemid].selectVariantTrack(allTracks[videoelemid][0], true);
+  }, 500);
+  */
 }
 
 function togglePlaybackOnAllViewPorts() {
+  var config = {};
   for(var i=0; i<4; i++) {
     for(var j=0; j<4; j++) {
       var videoelem = document.getElementById('vp'+i+j);
       console.log("vp"+i+j+" loaded!");
       videoelem.className="video-active";
-      togglePlayback(videoelem);
+      
+      togglePlayback('vp'+i+j);
     }
   }
-  togglePlayback(document.getElementById('audio')); 
+  togglePlayback('audio'); 
 }
 
 function togglePlaybackOnCenterViewPorts() {
@@ -254,10 +284,10 @@ function togglePlaybackOnCenterViewPorts() {
       var videoelem = document.getElementById('vp'+i+j);
       console.log("vp"+i+j+" loaded!");
       videoelem.className="video-active";
-      togglePlayback(videoelem);
+      togglePlayback('vp'+i+j);
     }
   }
-  togglePlayback(document.getElementById('audio')); 
+  togglePlayback('audio'); 
 }
 
 function initMultiView(config) {
