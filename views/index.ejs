@@ -117,95 +117,128 @@
         initKeyControls();
         initResize();
 
-        /*if($(window).width() < 1920){
-            togglePlaybackOnCenterViewPorts();
-        } else {
-            togglePlaybackOnAllViewPorts();
-        }*/
         togglePlaybackOnAllViewPorts();
 
-        setInterval(
-            function(){ 
-                var curTime=[], maxvididx, minvididx;
-                var maxTime=0, minTime=888888888, avgTime, accTime = 0;
+        var threshold = 0.4;    // 300ms 10frames thresold
+        var syncerror = 0.006;  // 3ms   0.1 frames 
 
-                var audioelem = document.getElementById('audio');
-                var curAudioTime = audioelem.currentTime;
+        setInterval(function(){ 
+            var curTime=[], maxvididx, minvididx;
+            var maxTime=0, minTime=888888888, avgTime, accTime = 0;
 
-                for(var i=0; i<4; i++) {
-                    for(var j=0; j<4; j++) {
-                        var videoelem = document.getElementById('vp'+i+j);
-                        //console.log("vp"+i+j+" current Time:"+videoelem.currentTime);
-                        curTime[i*4+j] =  videoelem.currentTime;
-                        accTime += videoelem.currentTime;
-                        if (videoelem.currentTime > maxTime) {
-                            maxTime = videoelem.currentTime;
-                            maxvididx = 'vp'+i+j;
-                        }
+            var audioelem = document.getElementById('audio');
+            var curAudioTime = audioelem.currentTime;
 
-                        if (videoelem.currentTime < minTime) {
-                            minTime = videoelem.currentTime;
-                            minvididx = 'vp'+i+j;
-                        }
-                        
+            for(var i=0; i<4; i++) {
+                for(var j=0; j<4; j++) {
+                    var videoelem = document.getElementById('vp'+i+j);
+                    //console.log("vp"+i+j+" current Time:"+videoelem.currentTime);
+                    curTime[i*4+j] =  videoelem.currentTime;
+                    accTime += videoelem.currentTime;
+                    if (videoelem.currentTime > maxTime) {
+                        maxTime = videoelem.currentTime;
+                        maxvididx = 'vp'+i+j;
+                    }
+
+                    if (videoelem.currentTime < minTime) {
+                        minTime = videoelem.currentTime;
+                        minvididx = 'vp'+i+j;
+                    }
+                    
+                }
+            }
+            avgTime = accTime/16;
+            //console.log("avgTime: "+ avgTime);
+            //console.log("curAudioTime: "+ curAudioTime);
+
+            var k = 1;
+            var pr=1.0;
+            var df=0;
+
+            for(var i=0; i<4; i++) {
+                for(var j=0; j<4; j++) {
+                    //if(i==0 && j==0) continue;
+                    var videoelemid = 'vp'+i+j;
+                    videoelem = document.getElementById(videoelemid);
+                    // if (curTime[i*4+j] > (avgTime + 0.030) )
+                    //     videoelem.currentTime =  avgTime;
+                    // else if (curTime[i*4+j] < (avgTime - 0.030) )
+                    //     videoelem.currentTime =  avgTime;
+                    
+                    //if (curTime[i*4+j] < (maxTime - 0.030) )
+                        // k++;
+                        // videoelem.currentTime =  avgTime + (0.0015*k);//document.getElementById(maxvididx).currentTime;
+
+                    //if (curTime[i*4+j] > (minTime + 0.030) )
+                    //    videoelem.currentTime =  avgTime;//document.getElementById(minvididx).currentTime;
+                    //console.log("vp"+i+j+" current Time:"+videoelem.currentTime);
+                    //curTime[i*4+j] =  videoelem.currentTime;
+
+                    var df =  curTime[i*4+j] - curAudioTime;
+                    /*
+                    if (Math.fabs(df) > threshold) {
+                        // force setCurrent Time to Master Time , update master time
+                        curAudioTime = audioelem.currentTime;
+                        videoelem.currentTime = curAudioTime;
+                        console.log("Diffis over "+ df*1000 + "ms , curAudioTime: "+ curAudioTime*1000 + "ms , " + videoelemid +": " + curTime[i*4+j]*1000 + "ms");
+                    }
+                    else */ 
+                    
+                    if (   ((df > 0) && (df > syncerror)) 
+                        || ((df < 0) && (df < -1*syncerror)) 
+                       )
+                    {
+                        pr = 1 - df/(2*threshold);
+                        if (pr < 0 ) pr = 0.1
+                        console.log(videoelemid +": PR " + pr + "Diff: " + df*1000);
+                    }
+
+                    videoelem.playbackRate = pr;
+                    /*
+                    if (curTime[i*4+j] > (curAudioTime + syncerror) ) {
+                        df = (((curTime[i*4+j] - curAudioTime) * 0.5)) ;
+                        pr = 1.0 - df/(2*threshold);
+                        videoelem.playbackRate =  0.95;// pr;
+                    }
+                    else if (curTime[i*4+j] < (curAudioTime - 0.005) ) {
+                        df = (((curTime[i*4+j] - curAudioTime) * 0.5)) ;
+                        pr = 1.0 + df;
+                        videoelem.playbackRate =  1.01;//pr;
+                    } else {
+                        videoelem.playbackRate =  pr;
+                    }
+                    */
+                    /*console.log("PR: "+pr+ ", df"+df);
+                    console.log("curAudioTime: "+ curAudioTime);
+                    console.log("avgTime: "+ avgTime);
+                    console.log("vp"+i+j+" current Time:"+curTime[i*4+j]);
+                    console.log("vp"+i+j+" playbackRate:"+videoelem.playbackRate+", pr: "+ pr);*/
+
+                }
+            }
+            /*
+            for(var i=0; i<4; i++) {
+                for(var j=0; j<4; j++) {
+                    console.log("avgTime: "+ avgTime);
+                    console.log("vp"+i+j+" current Time:"+curTime[i*4+j]);
+                    console.log("vp"+i+j+" playbackRate:"+videoelem.playbackRate);
+                }
+            }
+            */
+        }, threshold*1000);
+
+        // sync function
+        setInterval( function(){
+            for(var i=0; i<4; i++) {
+                for(var j=0; j<4; j++) {
+                    var videoelemid = 'vp'+i+j;
+                    if(activeViewPort != videoelemid) {
+                        var value = Math.floor((Math.random() * 4) + 1);
+                        shakaPlayers[videoelemid].selectVariantTrack(allTracks[videoelemid][value], false);
                     }
                 }
-                avgTime = accTime/16;
-                //console.log("avgTime: "+ avgTime);
-                //console.log("curAudioTime: "+ curAudioTime);
-
-                var k = 1;
-                var pr=1.0;
-                var df=0;
-                for(var i=0; i<4; i++) {
-                    for(var j=0; j<4; j++) {
-                        //if(i==0 && j==0) continue;
-                        videoelem = document.getElementById('vp'+i+j);
-                        // if (curTime[i*4+j] > (avgTime + 0.030) )
-                        //     videoelem.currentTime =  avgTime;
-                        // else if (curTime[i*4+j] < (avgTime - 0.030) )
-                        //     videoelem.currentTime =  avgTime;
-                        
-                        //if (curTime[i*4+j] < (maxTime - 0.030) )
-                            // k++;
-                            // videoelem.currentTime =  avgTime + (0.0015*k);//document.getElementById(maxvididx).currentTime;
-
-                        //if (curTime[i*4+j] > (minTime + 0.030) )
-                        //    videoelem.currentTime =  avgTime;//document.getElementById(minvididx).currentTime;
-                        //console.log("vp"+i+j+" current Time:"+videoelem.currentTime);
-                        //curTime[i*4+j] =  videoelem.currentTime;
-
-                        var df=0;
-                        if (curTime[i*4+j] > (curAudioTime + 0.005) ) {
-                            df = (((curTime[i*4+j] - curAudioTime) * 0.5)) ;
-                            pr = 1.0 - df;
-                            videoelem.playbackRate =  0.95;// pr;
-                        }
-                        else if (curTime[i*4+j] < (curAudioTime - 0.005) ) {
-                            df = (((curTime[i*4+j] - curAudioTime) * 0.5)) ;
-                            pr = 1.0 + df;
-                            videoelem.playbackRate =  1.01;//pr;
-                        } else {
-                            videoelem.playbackRate =  pr;
-                        }
-                        /*console.log("PR: "+pr+ ", df"+df);
-                        console.log("curAudioTime: "+ curAudioTime);
-                        console.log("avgTime: "+ avgTime);
-                        console.log("vp"+i+j+" current Time:"+curTime[i*4+j]);
-                        console.log("vp"+i+j+" playbackRate:"+videoelem.playbackRate+", pr: "+ pr);*/
-
-                    }
-                }
-                /*
-                for(var i=0; i<4; i++) {
-                    for(var j=0; j<4; j++) {
-                        console.log("avgTime: "+ avgTime);
-                        console.log("vp"+i+j+" current Time:"+curTime[i*4+j]);
-                        console.log("vp"+i+j+" playbackRate:"+videoelem.playbackRate);
-                    }
-                }
-                */
-        }, 500);
+            }
+        }, 10000);
 
     });
   </script>

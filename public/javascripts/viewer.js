@@ -168,20 +168,11 @@ function activateViewPort(videoelemid) {
     table.style.top = extHeight+"px";
   }
 
-  var config = {};
-  
   if (activeViewPort) {
     currentActiveVideoElem = document.getElementById(activeViewPort);
     currentActiveVideoElem.className = currentActiveVideoElem.className.replace("video-unmuted", "");
     //currentActiveVideoElem.muted = true;
-    /*
-    config = {
-      abr: {
-        enabled: false
-      }
-    };
-    shakaPlayers[videoelemid].configure(config);
-    */
+
     shakaPlayers[activeViewPort].selectVariantTrack(allTracks[activeViewPort][4], true);
   }
   if (activeViewPort != videoelemid) {
@@ -208,25 +199,6 @@ function activateViewPort(videoelemid) {
     table.style.left = left + "px";
     table.style.top = top + "px";
  
-    /*
-    for(var i=0; i<4; i++) {
-      for(var j=0; j<4; j++) {
-        var vid = 'vp'+i+j;
-        console.log("vid: "+vid);
-        console.log("allTracks: "+allTracks[vid]);
-        if(vid == videoelemid) shakaPlayers[vid].selectTrack(allTracks[vid][0]);
-        else shakaPlayers[vid].selectTrack(allTracks[vid][4]);
-      }
-    }
-    */
-    /*
-    config = {
-      abr: {
-        enabled: false
-      }
-    };
-    shakaPlayers[videoelemid].configure(config);
-    */
     shakaPlayers[videoelemid].selectVariantTrack(allTracks[videoelemid][0], true);
   } else {
     activeViewPort = null;
@@ -251,17 +223,6 @@ function togglePlayback(videoelemid) {
     });
   }
 
-  /*
-  setTimeout(function(){    
-    var config = {
-      abr: {
-        enabled: true
-      }
-    };
-    shakaPlayers[videoelemid].configure(config);
-    shakaPlayers[videoelemid].selectVariantTrack(allTracks[videoelemid][0], true);
-  }, 500);
-  */
 }
 
 function togglePlaybackOnAllViewPorts() {
