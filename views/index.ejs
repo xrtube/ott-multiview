@@ -127,6 +127,7 @@
             var maxTime=0, minTime=888888888, avgTime, accTime = 0;
 
             var audioelem = document.getElementById('audio');
+            if(audioelem.paused) return;
             var curAudioTime = audioelem.currentTime;
 
             for(var i=0; i<4; i++) {
@@ -167,28 +168,66 @@
                     {
                         pr = 1 - df/(2*threshold);
                         if (pr < 0 ) pr = 0.1
-                        //console.log(videoelemid +": PR " + pr + "Diff: " + df*1000);
+                        console.log(videoelemid +": PR " + pr + "Diff: " + df*1000);
                     }
-
-                    videoelem.playbackRate = pr;
+                    try{
+                        videoelem.playbackRate = pr;
+                    } catch(e){ console.log("Play Rate Error: ", e); }
                 }
             }
         }, threshold*1000);
 
         // sync function
         setInterval( function(){
+            var audioelem = document.getElementById('audio');
+            if(audioelem.paused) return;
+            
+            console.log("curDisplayIndex: ", curDisplayIndex);
+            if(trackSelectOption==2 && vectorCretiras[0] == null
+                && allTracks['vp00'].length != null ){
+                var gap = (motionVectorMax - motionVectorMin) / allTracks['vp00'].length;
+                for (var l=0; l<allTracks['vp00'].length; l++){
+                    vectorCretiras[l] = motionVectorMax - (gap*l);
+                }
+                console.log("vectorCretiras["+l+"]:", vectorCretiras[l] );
+            }
+            
             for(var i=0; i<4; i++) {
                 for(var j=0; j<4; j++) {
                     var videoelemid = 'vp'+i+j;
                     if(activeViewPort != videoelemid) {
-                        var value = Math.floor(Math.random() * allTracks[videoelemid].length);
-                        //console.log("value: ", value);
+                        var value = 0;
+                        var isStaticValue = false;
+                        if(trackSelectOption==2){
+                            var mvectors = motionVectors[videoelemid];
+                            if(mvectors!=null && curDisplayIndex < mvectors.length){
+                                value = 0;
+                                for (var l=0; l<allTracks['vp00'].length; l++){
+                                    console.log("vectorCretiras["+l+"]:", vectorCretiras[l]);
+                                }
+                                console.log("motionVectors["+videoelemid+"]["+curDisplayIndex+"]:", motionVectors[videoelemid][curDisplayIndex]);
+                                for (var l=0; l<vectorCretiras.length; l++){
+                                    if(motionVectors[videoelemid][curDisplayIndex] > vectorCretiras[l]){
+                                        value = (vectorCretiras.length -1) - l;
+                                        isStaticValue = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            else {
+                                value = Math.floor(Math.random() * allTracks[videoelemid].length);
+                            }
+                        }
+                        else 
+                            value = Math.floor(Math.random() * allTracks[videoelemid].length);
+                        console.log("trackSelectOption:", trackSelectOption, "isStaticValue:",isStaticValue, "value:", value, "curDisplayIndex:", curDisplayIndex);
                         shakaPlayers[videoelemid].selectVariantTrack(allTracks[videoelemid][value], false);
                     } 
                 }
             }
+            curDisplayIndex += 1;
         }, 10000);
-
+        
     });
   </script>
 </body>

@@ -8,6 +8,13 @@ var curZoom = 1;
 var orgTableRectWidth = 0;
 var orgTableRectHeight = 0;
 var allTracks = {};
+var motionVectorUrl = null;
+var motionVectors = {};
+var motionVectorMax = 0;
+var motionVectorMin = 0;
+var trackSelectOption = 1; // random = 1 (default), motionvector = 2
+var curDisplayIndex = 0;
+var vectorCretiras = [];
 
 function initHlsPlayer(conf, videoelemid, donecb) {
   var hlsconfig = {
@@ -71,26 +78,6 @@ function initDashPlayer(conf, videoelemid, donecb) {
       //donecb(videoelem);
     }).catch(function(e) { console.log("Error: ", e); });
   } else {
-    var offset = 0;
-    /*
-    if(videoelemid=="vp00") offset = 45;
-    else if(videoelemid=="vp01") offset = 50;
-    else if(videoelemid=="vp02") offset = 55;
-    else if(videoelemid=="vp03") offset = 60;
-    else if(videoelemid=="vp10") offset = 65;
-    else if(videoelemid=="vp11") offset = 70;
-    else if(videoelemid=="vp12") offset = 75;
-    else if(videoelemid=="vp13") offset = 80;
-    else if(videoelemid=="vp20") offset = 85;
-    else if(videoelemid=="vp21") offset = 90;
-    else if(videoelemid=="vp22") offset = 95;
-    else if(videoelemid=="vp23") offset = 100;
-    else if(videoelemid=="vp30") offset = 105;
-    else if(videoelemid=="vp31") offset = 110;
-    else if(videoelemid=="vp32") offset = 115;
-    else if(videoelemid=="vp33") offset = 120;
-    */
-
     shakap.configure({
       abr: {
         enabled: false
@@ -102,10 +89,7 @@ function initDashPlayer(conf, videoelemid, donecb) {
 
     shakap.load(conf.manifest).then(function(ev) {
       videoelem.muted = true;
-      //shakap.currentTime = offset;
       shakap.minimumUpdatePeriod="PT03S";
-      //shakap.timeShiftBufferDepth = "PT50.00S";
-      //shakap.suggestedPresentationDelay = "PT50.00S";
       shakap.setMaxHardwareResolution(600, 600);
       //videoelem.play();
       allTracks[videoelemid] = shakap.getVariantTracks();
@@ -168,8 +152,6 @@ function activateViewPort(videoelemid) {
     table.style.top = extHeight+"px";
   }
 
-  var config = {};
-  
   if (activeViewPort) {
     currentActiveVideoElem = document.getElementById(activeViewPort);
     currentActiveVideoElem.className = currentActiveVideoElem.className.replace("video-unmuted", "");
@@ -264,6 +246,46 @@ function initMultiView(config) {
       initViewPort(config['main'][2], 'audio');
     }
 
+    if(config['main'][3]){
+      motionVectorUrl = config['main'][3].manifest;
+
+      $.ajax({
+        type : 'GET',
+        url : motionVectorUrl,
+        success : function (data) {
+            var length = 0;
+            try {
+              length = data["0x0"].length;
+            } catch(e){
+              length = 0;
+            }
+            //console.log("Motion Vectors length: ", length);
+            if(length== 0) return;
+           
+            var minValue = 0;
+            var maxValue = 0;
+            for(var k=0; k<length; k++){
+              for(var i=0; i<4; i++) {
+                  for(var j=0; j<4; j++) {
+                      //console.log("Motion Vector: ", data[i+"x"+j][k]);
+                      if(motionVectors["vp"+i+j]==null) motionVectors["vp"+i+j] = [];
+                      motionVectors["vp"+i+j][k] = data[i+"x"+j][k];
+                      if(i==0&&j==0&&k==0) {
+                        minValue = data[i+"x"+j][k];
+                        maxValue = data[i+"x"+j][k];
+                      } else {
+                        if(data[i+"x"+j][k] > 0 && minValue > data[i+"x"+j][k]) minValue = data[i+"x"+j][k];
+                        if(data[i+"x"+j][k] > 0 && maxValue < data[i+"x"+j][k]) maxValue = data[i+"x"+j][k];
+                      }
+                  }
+              }
+            }
+            motionVectorMin = minValue;
+            motionVectorMax = maxValue;
+        }
+      });
+    }
+
     setTimeout(function(){    
       var table =  document.getElementById("table");
       var tableRect =  table.getBoundingClientRect();
@@ -283,6 +305,16 @@ function onKeyPress(ev) {
     
     ev.preventDefault();
     //ev.pausePropagation();
+  } else if (ev.keyCode == 113) {
+      // q
+      console.log('operator hit q');
+      trackSelectOption = 1;
+      console.log('trackSelectOption',trackSelectOption);
+  } else if (ev.keyCode == 119) {
+      // w
+      console.log('operator hit w');
+      trackSelectOption = 2;
+      console.log('trackSelectOption',trackSelectOption);
   } else if (ev.keyCode == 43 || ev.keyCode == 61) { // _ (61), - (43)
     console.log('operator hit Zoom In');
     if(curZoom>5) return;
