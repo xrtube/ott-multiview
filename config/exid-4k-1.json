@@ -1,0 +1,93 @@
+
+{
+  "main": [
+    { "title": "Preview",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/,preview.mp4,a_128k.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Merge",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_1296k_0x1.mp4/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Audio",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/a_128k.mp4/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "MotionVector",
+      "manifest": "http://lab.xrtube.net:2080/file/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/motion_vector.json",
+      "type": "dash"
+    }
+  ],
+  "row0": [
+    { "title": "Example 1",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_0x0.mp4,907k_0x0.mp4,518k_0x0.mp4,129k_0x0.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Example 2",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_0x1.mp4,907k_0x1.mp4,518k_0x1.mp4,129k_0x1.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Example 3",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_0x2.mp4,907k_0x2.mp4,518k_0x2.mp4,129k_0x2.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Example 4",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_0x3.mp4,907k_0x3.mp4,518k_0x3.mp4,129k_0x3.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    }
+ ],
+  "row1": [
+    { "title": "Example 5",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_1x0.mp4,907k_1x0.mp4,518k_1x0.mp4,129k_1x0.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Example 6",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_1x1.mp4,907k_1x1.mp4,518k_1x1.mp4,129k_1x1.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Example 7",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_1x2.mp4,907k_1x2.mp4,518k_1x2.mp4,129k_1x2.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Example 8",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_1x3.mp4,907k_1x3.mp4,518k_1x3.mp4,129k_1x3.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    }
+  ],
+  "row2": [
+    { "title": "Example 9",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_2x0.mp4,907k_2x0.mp4,518k_2x0.mp4,129k_2x0.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Example 10",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_2x1.mp4,907k_2x1.mp4,518k_2x1.mp4,129k_2x1.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Example 11",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_2x2.mp4,907k_2x2.mp4,518k_2x2.mp4,129k_2x2.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Example 12",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_2x3.mp4,907k_2x3.mp4,518k_2x3.mp4,129k_2x3.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    }
+  ],
+  "row3": [
+    { "title": "Example 13",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_3x0.mp4,907k_3x0.mp4,518k_3x0.mp4,129k_3x0.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Example 14",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_3x1.mp4,907k_3x1.mp4,518k_3x1.mp4,129k_3x1.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Example 15",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_3x2.mp4,907k_3x2.mp4,518k_3x2.mp4,129k_3x2.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    },
+    { "title": "Example 16",
+      "manifest": "http://lab.xrtube.net:2080/dash/out/00031_4k-181014-exid-iegseuaidi-up-down-wiarae-bbq-syupeo-konseoteu-jigkaem-fancam-by-pierce-mkv/v_,1296k_3x3.mp4,907k_3x3.mp4,518k_3x3.mp4,129k_3x3.mp4,.urlset/manifest.mpd",
+      "type": "dash"
+    }
+  ]
+}
