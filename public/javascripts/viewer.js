@@ -307,19 +307,18 @@ function activateViewPort(videoelemid) {
       for(var i=0; i<4; i++) {
         for(var j=0; j<4; j++) {
           var tempid = "vp"+i+j;
-          console.log("tempid:",tempid);
           if(videoelemid==tempid){
             shakaPlayers[videoelemid].selectVariantTrack(allTracks[videoelemid][0], true);
-            console.log("1");
+            console.log("tempid:",tempid,0);
           }
-          else if(highligtAreas.indexOf(tempid)>0){
+          else if(highligtAreas.indexOf(tempid)>=0){
             shakaPlayers[tempid].selectVariantTrack(allTracks[tempid][1], false);
-            console.log("2");
+            console.log("tempid:",tempid,1);
           }
           else {
             maxlength = allTracks[tempid].length - 1;
             shakaPlayers[tempid].selectVariantTrack(allTracks[tempid][maxlength], false);
-            console.log("3");
+            console.log("tempid:",tempid,maxlength);
           }
         }
       } 

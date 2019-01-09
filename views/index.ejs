@@ -186,8 +186,8 @@
             if(trackSelectOption==2 && vectorCretiras[0] == null
                 && allTracks['vp00'].length != null ){
                 var gap = (motionVectorMax - motionVectorMin) / allTracks['vp00'].length;
-                for (var l=0; l<allTracks['vp00'].length; l++){
-                    vectorCretiras[l] = motionVectorMax - (gap*l);
+                for (var l=0; l<allTracks['vp00'].length - 1; l++){
+                    vectorCretiras[l] = motionVectorMax - (gap*(l+1));
                 }
             }
             
@@ -201,13 +201,18 @@
                             var mvectors = motionVectors[videoelemid];
                             if(mvectors!=null && curDisplayIndex < mvectors.length){
                                 value = 0;
-                                for (var l=0; l<allTracks['vp00'].length; l++){
+                                for (var l=0; l<vectorCretiras.length; l++){
                                     console.log("vectorCretiras["+l+"]:", vectorCretiras[l]);
                                 }
                                 console.log("motionVectors["+videoelemid+"]["+curDisplayIndex+"]:", motionVectors[videoelemid][curDisplayIndex]);
                                 for (var l=0; l<vectorCretiras.length; l++){
                                     if(motionVectors[videoelemid][curDisplayIndex] > vectorCretiras[l]){
-                                        value = (vectorCretiras.length -1) - l;
+                                        value = l;
+                                        isStaticValue = true;
+                                        break;
+                                    }
+                                    else if (l==(vectorCretiras.length-1)) {
+                                        value = (vectorCretiras.length -1);
                                         isStaticValue = true;
                                         break;
                                     }
@@ -225,7 +230,7 @@
                 }
             }
             curDisplayIndex += 1;
-        }, 10000);
+        }, 1000);
         
     });
   </script>
