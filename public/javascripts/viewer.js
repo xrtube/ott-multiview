@@ -15,6 +15,7 @@ var motionVectorMin = 0;
 var trackSelectOption = 1; // random = 1 (default), motionvector = 2
 var curDisplayIndex = 0;
 var vectorCretiras = [];
+var highligtAreas=[];
 
 function initHlsPlayer(conf, videoelemid, donecb) {
   var hlsconfig = {
@@ -73,9 +74,6 @@ function initDashPlayer(conf, videoelemid, donecb) {
   if(videoelemid=="audio"){
     shakap.load(conf.manifest).then(function(ev) {
       //videoelem.muted = true;
-      //shakap.setMaxHardwareResolution(600, 600);
-      //videoelem.play();
-      //donecb(videoelem);
     }).catch(function(e) { console.log("Error: ", e); });
   } else {
     shakap.configure({
@@ -152,12 +150,20 @@ function activateViewPort(videoelemid) {
     table.style.top = extHeight+"px";
   }
 
+  var maxlength = 0;
   if (activeViewPort) {
     currentActiveVideoElem = document.getElementById(activeViewPort);
     currentActiveVideoElem.className = currentActiveVideoElem.className.replace("video-unmuted", "");
     //currentActiveVideoElem.muted = true;
-    var maxlength = allTracks[activeViewPort].length - 1;
+    maxlength = allTracks[activeViewPort].length - 1;
     shakaPlayers[activeViewPort].selectVariantTrack(allTracks[activeViewPort][maxlength], true);
+    if(trackSelectOption==3 && activeViewPort == videoelemid) {
+      for(var k=0; k<highligtAreas.length; k++) {
+        var htempid = highligtAreas[k];
+        console.log("htempid:",htempid);
+        shakaPlayers[htempid].selectVariantTrack(allTracks[htempid][maxlength], false);
+      }
+    }
   }
   if (activeViewPort != videoelemid) {
     newActiveVideoElem = document.getElementById(videoelemid);
@@ -168,23 +174,163 @@ function activateViewPort(videoelemid) {
     var itemRect = newActiveVideoElem.getBoundingClientRect();
     var itemWidth = (itemRect.right - itemRect.left);
     var itemHeight = (itemRect.bottom - itemRect.top);
-    console.log("activateViewPort itemRect Top: " + itemRect.top + " Left: " + itemRect.left + " Width: " + itemWidth + " Height: " + itemHeight);
 
     var tableRect =  table.getBoundingClientRect();
     var tableWidth = (tableRect.right - tableRect.left);
     var tableHeight = (tableRect.bottom - tableRect.top);
-    console.log("activateViewPort tableRect Top: " + tableRect.top + " Left: " + tableRect.left + " Width: " + tableWidth + " Height: " + tableHeight);
 
     var left = 0, top = 0;
     left = -(itemRect.left - (tableWidth/2-itemWidth/2));
     top = -(itemRect.top - (tableHeight/2-itemHeight/2));
-    console.log("activateViewPort current Top: " + top + " Left: " + left );
 
     table.style.left = left + "px";
     table.style.top = top + "px";
  
-    shakaPlayers[videoelemid].selectVariantTrack(allTracks[videoelemid][0], true);
+    //if(trackSelectOption==3) {
+      highligtAreas = [];
+      if(videoelemid=="vp00"){
+        highligtAreas.push("vp01");
+        highligtAreas.push("vp10");
+        highligtAreas.push("vp11");
+      }
+      else if(videoelemid=="vp01"){
+        highligtAreas.push("vp00");
+        highligtAreas.push("vp02");
+        highligtAreas.push("vp10");
+        highligtAreas.push("vp11");
+        highligtAreas.push("vp12");
+      }
+      else if(videoelemid=="vp02"){
+        highligtAreas.push("vp01");
+        highligtAreas.push("vp03");
+        highligtAreas.push("vp11");
+        highligtAreas.push("vp12");
+        highligtAreas.push("vp13");
+      }
+      else if(videoelemid=="vp03"){
+        highligtAreas.push("vp02");
+        highligtAreas.push("vp12");
+        highligtAreas.push("vp13");
+      }
+      else if(videoelemid=="vp10"){
+        highligtAreas.push("vp00");
+        highligtAreas.push("vp01");
+        highligtAreas.push("vp11");
+        highligtAreas.push("vp20");
+        highligtAreas.push("vp21");
+      }
+      else if(videoelemid=="vp11"){
+        highligtAreas.push("vp00");
+        highligtAreas.push("vp01");
+        highligtAreas.push("vp02");
+        highligtAreas.push("vp10");
+        highligtAreas.push("vp12");
+        highligtAreas.push("vp20");
+        highligtAreas.push("vp21");
+        highligtAreas.push("vp22");
+      }
+      else if(videoelemid=="vp12"){
+        highligtAreas.push("vp01");
+        highligtAreas.push("vp02");
+        highligtAreas.push("vp03");
+        highligtAreas.push("vp11");
+        highligtAreas.push("vp13");
+        highligtAreas.push("vp21");
+        highligtAreas.push("vp22");
+        highligtAreas.push("vp23");
+      }
+      else if(videoelemid=="vp13"){
+        highligtAreas.push("vp02");
+        highligtAreas.push("vp03");
+        highligtAreas.push("vp12");
+        highligtAreas.push("vp22");
+        highligtAreas.push("vp23");
+      }
+      else if(videoelemid=="vp20"){
+        highligtAreas.push("vp10");
+        highligtAreas.push("vp11");
+        highligtAreas.push("vp21");
+        highligtAreas.push("vp30");
+        highligtAreas.push("vp31");
+      }
+      else if(videoelemid=="vp21"){
+        highligtAreas.push("vp10");
+        highligtAreas.push("vp11");
+        highligtAreas.push("vp12");
+        highligtAreas.push("vp20");
+        highligtAreas.push("vp22");
+        highligtAreas.push("vp30");
+        highligtAreas.push("vp31");
+        highligtAreas.push("vp32");
+      }
+      else if(videoelemid=="vp22"){
+        highligtAreas.push("vp11");
+        highligtAreas.push("vp12");
+        highligtAreas.push("vp13");
+        highligtAreas.push("vp21");
+        highligtAreas.push("vp23");
+        highligtAreas.push("vp31");
+        highligtAreas.push("vp32");
+        highligtAreas.push("vp33");
+      }
+      else if(videoelemid=="vp23"){
+        highligtAreas.push("vp12");
+        highligtAreas.push("vp13");
+        highligtAreas.push("vp22");
+        highligtAreas.push("vp32");
+        highligtAreas.push("vp33");
+      }
+      else if(videoelemid=="vp30"){
+        highligtAreas.push("vp20");
+        highligtAreas.push("vp21");
+        highligtAreas.push("vp31");
+      }
+      else if(videoelemid=="vp31"){
+        highligtAreas.push("vp20");
+        highligtAreas.push("vp21");
+        highligtAreas.push("vp22");
+        highligtAreas.push("vp30");
+        highligtAreas.push("vp32");
+      }
+      else if(videoelemid=="vp32"){
+        highligtAreas.push("vp21");
+        highligtAreas.push("vp22");
+        highligtAreas.push("vp23");
+        highligtAreas.push("vp31");
+        highligtAreas.push("vp33");
+      }
+      else if(videoelemid=="vp33"){
+        highligtAreas.push("vp22");
+        highligtAreas.push("vp23");
+        highligtAreas.push("vp32");
+      }
+      for(var i=0; i<4; i++) {
+        for(var j=0; j<4; j++) {
+          var tempid = "vp"+i+j;
+          console.log("tempid:",tempid);
+          if(videoelemid==tempid){
+            shakaPlayers[videoelemid].selectVariantTrack(allTracks[videoelemid][0], true);
+            console.log("1");
+          }
+          else if(highligtAreas.indexOf(tempid)>0){
+            shakaPlayers[tempid].selectVariantTrack(allTracks[tempid][1], false);
+            console.log("2");
+          }
+          else {
+            maxlength = allTracks[tempid].length - 1;
+            shakaPlayers[tempid].selectVariantTrack(allTracks[tempid][maxlength], false);
+            console.log("3");
+          }
+        }
+      } 
+      trackSelectOption = 3;
+    /*
+    } else {
+      shakaPlayers[videoelemid].selectVariantTrack(allTracks[videoelemid][0], true);
+    }
+    */
   } else {
+    trackSelectOption = 1;
     activeViewPort = null;
   }
 }
@@ -222,18 +368,6 @@ function togglePlaybackOnAllViewPorts() {
   togglePlayback('audio'); 
 }
 
-function togglePlaybackOnCenterViewPorts() {
-  for(var i=1; i<3; i++) {
-    for(var j=1; j<3; j++) {
-      var videoelem = document.getElementById('vp'+i+j);
-      console.log("vp"+i+j+" loaded!");
-      videoelem.className="video-active";
-      togglePlayback('vp'+i+j);
-    }
-  }
-  togglePlayback('audio'); 
-}
-
 function initMultiView(config) {
   if (config) {
     shaka.polyfill.installAll();
@@ -259,7 +393,6 @@ function initMultiView(config) {
             } catch(e){
               length = 0;
             }
-            //console.log("Motion Vectors length: ", length);
             if(length== 0) return;
            
             var minValue = 0;
@@ -267,7 +400,6 @@ function initMultiView(config) {
             for(var k=0; k<length; k++){
               for(var i=0; i<4; i++) {
                   for(var j=0; j<4; j++) {
-                      //console.log("Motion Vector: ", data[i+"x"+j][k]);
                       if(motionVectors["vp"+i+j]==null) motionVectors["vp"+i+j] = [];
                       motionVectors["vp"+i+j][k] = data[i+"x"+j][k];
                       if(i==0&&j==0&&k==0) {
@@ -291,7 +423,6 @@ function initMultiView(config) {
       var tableRect =  table.getBoundingClientRect();
       orgTableRectWidth = (tableRect.right - tableRect.left);
       orgTableRectHeight = (tableRect.bottom - tableRect.top);
-      console.log("initMultiView tableRect Width: " + orgTableRectWidth + " Height: " + orgTableRectHeight);
     }, 300);
   }
 }
@@ -309,12 +440,14 @@ function onKeyPress(ev) {
       // q
       console.log('operator hit q');
       trackSelectOption = 1;
-      console.log('trackSelectOption',trackSelectOption);
   } else if (ev.keyCode == 119) {
       // w
       console.log('operator hit w');
       trackSelectOption = 2;
-      console.log('trackSelectOption',trackSelectOption);
+  } else if (ev.keyCode == 101) {
+      // e
+      console.log('operator hit e');
+      trackSelectOption = 3;
   } else if (ev.keyCode == 43 || ev.keyCode == 61) { // _ (61), - (43)
     console.log('operator hit Zoom In');
     if(curZoom>5) return;
@@ -322,7 +455,6 @@ function onKeyPress(ev) {
 
     var table =  document.getElementById("table");
     table.style.transform = "scale("+curZoom+")";
-    console.log("onKeyPress tableRect Width: " + orgTableRectWidth + " Height: " + orgTableRectHeight);
 
     if(curZoom==1){
       table.style.left = "0px";
@@ -330,12 +462,9 @@ function onKeyPress(ev) {
     } else {
       extWidth = (orgTableRectWidth*curZoom)/2 - orgTableRectWidth/2;
       extHeight = (orgTableRectHeight*curZoom)/2 - orgTableRectHeight/2;
-      console.log("onKeyPress tableRect Width: " + extWidth + " Height: " + extHeight);
 
       table.style.left = extWidth+"px";
       table.style.top = extHeight+"px";
-      console.log("onKeyPress curZoom: " + curZoom);
-      console.log("onKeyPress tableRect Top: " + table.style.top + " Left: " + table.style.left);
     }  
     if (activeViewPort) {
       var oldActiveViewPort = activeViewPort;
@@ -351,7 +480,6 @@ function onKeyPress(ev) {
 
     var table =  document.getElementById("table");
     table.style.transform = "scale("+curZoom+")";
-    console.log("onKeyPress tableRect Width: " + orgTableRectWidth + " Height: " + orgTableRectHeight);
 
     if(curZoom==1){
       table.style.left = "0px";
@@ -360,25 +488,18 @@ function onKeyPress(ev) {
       var tableRect =  table.getBoundingClientRect();
       var tableWidth = (tableRect.right - tableRect.left);
       var tableHeight = (tableRect.bottom - tableRect.top);
-      console.log("activateViewPort tableRect Top: " + tableRect.top + " Left: " + tableRect.left + " Width: " + tableWidth + " Height: " + tableHeight);
   
       var extWidth = orgTableRectWidth/2 - tableWidth/2;
       var extHeight = orgTableRectHeight/2 - tableHeight/2;
-      console.log("onKeyPress tableRect Width: " + extWidth + " Height: " + extHeight);
 
       table.style.left = extWidth+"px";
       table.style.top = extHeight+"px";
-      console.log("onKeyPress curZoom: " + curZoom);
-      console.log("onKeyPress tableRect Top: " + table.style.top + " Left: " + table.style.left);
     } else {
       extWidth = (orgTableRectWidth*curZoom)/2 - orgTableRectWidth/2;
       extHeight = (orgTableRectHeight*curZoom)/2 - orgTableRectHeight/2;
-      console.log("onKeyPress tableRect Width: " + extWidth + " Height: " + extHeight);
 
       table.style.left = extWidth+"px";
       table.style.top = extHeight+"px";
-      console.log("onKeyPress curZoom: " + curZoom);
-      console.log("onKeyPress tableRect Top: " + table.style.top + " Left: " + table.style.left);
     }
 
     if (activeViewPort) {
@@ -404,7 +525,6 @@ function onKeyPress(ev) {
       row = 1;
     }
     videoelemid = 'vp' + row + idx;
-    console.log("videoelemid: "+videoelemid);
     activateViewPort(videoelemid);
   }
 }
@@ -419,7 +539,6 @@ function onResize(){
       var tableRect =  table.getBoundingClientRect();
       orgTableRectWidth = (tableRect.right - tableRect.left);
       orgTableRectHeight = (tableRect.bottom - tableRect.top);
-      console.log("initMultiView tableRect Width: " + orgTableRectWidth + " Height: " + orgTableRectHeight);
 
       if (activeViewPort) {
         var oldActiveViewPort = activeViewPort;

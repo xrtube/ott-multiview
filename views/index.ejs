@@ -168,7 +168,7 @@
                     {
                         pr = 1 - df/(2*threshold);
                         if (pr < 0 ) pr = 0.1
-                        console.log(videoelemid +": PR " + pr + "Diff: " + df*1000);
+                        //console.log(videoelemid +": PR " + pr + "Diff: " + df*1000);
                     }
                     try{
                         videoelem.playbackRate = pr;
@@ -181,15 +181,14 @@
         setInterval( function(){
             var audioelem = document.getElementById('audio');
             if(audioelem.paused) return;
+            else if(trackSelectOption==3) return;
             
-            console.log("curDisplayIndex: ", curDisplayIndex);
             if(trackSelectOption==2 && vectorCretiras[0] == null
                 && allTracks['vp00'].length != null ){
                 var gap = (motionVectorMax - motionVectorMin) / allTracks['vp00'].length;
                 for (var l=0; l<allTracks['vp00'].length; l++){
                     vectorCretiras[l] = motionVectorMax - (gap*l);
                 }
-                console.log("vectorCretiras["+l+"]:", vectorCretiras[l] );
             }
             
             for(var i=0; i<4; i++) {
