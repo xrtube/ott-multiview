@@ -14,6 +14,21 @@ Some limitations apply:
 - In ServerSide , DRM contents accepts and ready to transmission.
 - On ClientSide , DRM contents compatible with our XRtube-Client App.
 
+# Demo Test Stream Lists [Updated]
+
+Demo1: K-POP Twice IDOL Girl Group
+    http://lab.xrtube.net:3000/?config=twice-8k.json
+
+Demo2: Nature of PERU Country 
+    http://lab.xrtube.net:3000/?config=peru-8k.json
+
+Demo3: K-POP EXID IDOL Girl Group #2
+    http://lab.xrtube.net:3000/?config=exid-4k-2.json
+
+Demo4: K-POP BLACKPINK IDOL Girl Group 마지막처럼
+    http://lab.xrtube.net:3000/?config=blackpink-4k.json 
+
+
 # Installation
 
 Get the code from Github or fork the repository if you plan to contribute to this project.
