@@ -354,7 +354,6 @@ function togglePlayback(videoelemid) {
 }
 
 function togglePlaybackOnAllViewPorts() {
-  var config = {};
   for(var i=0; i<4; i++) {
     for(var j=0; j<4; j++) {
       var videoelem = document.getElementById('vp'+i+j);
@@ -555,4 +554,40 @@ function initKeyControls() {
 
 function initResize() {
   window.addEventListener("resize", onResize, false);
+}
+
+function initAudio() {
+  var audioelem = document.getElementById('audio');
+  audioelem.addEventListener("play", audioPlay, false);
+  audioelem.addEventListener("pause", audioPause, false);
+  audioelem.addEventListener("timeupdate", audioSeek, true);
+}
+
+function audioPlay(){
+  for(var i=0; i<4; i++) {
+    for(var j=0; j<4; j++) {
+      var videoelem = document.getElementById('vp'+i+j);
+      videoelem.className="video-active";      
+      togglePlayback('vp'+i+j);
+    }
+  }
+}
+
+function audioPause(){
+  for(var i=0; i<4; i++) {
+    for(var j=0; j<4; j++) {
+      var videoelem = document.getElementById('vp'+i+j);
+      videoelem.className="video-pause";
+      togglePlayback('vp'+i+j);
+    }
+  }
+}
+
+function audioSeek(ev){
+  for(var i=0; i<4; i++) {
+    for(var j=0; j<4; j++) {
+      var videoelem = document.getElementById('vp'+i+j);
+      videoelem.currentTime = ev.currentTarget.currentTime;
+    }
+  }
 }

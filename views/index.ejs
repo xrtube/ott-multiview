@@ -95,14 +95,14 @@
             <div class="shortcut">16</div>
         </div>
     </div>
-    <div class="audio_row">
-        <div class="audio_noitem">&nbsp;</div>
-        <div class="audio_item">
-            <audio id="audio" class="audio-paused" style="height:50px;" controls></audio>
-        </div>
-        <div class="audio_noitem">&nbsp;</div>
-    </div>
   </div> 
+  <div class="audio_row">
+    <div class="audio_noitem">&nbsp;</div>
+    <div class="audio_item">
+        <audio id="audio" class="audio-paused" style="height:50px;" controls></audio>
+    </div>
+    <div class="audio_noitem">&nbsp;</div>
+</div>
 
   <script src="javascripts/hls.min.js" type="text/javascript"></script>
   <script src="javascripts/shaka-player.v2.4.5-compiled.js" type="text/javascript"></script>
@@ -116,6 +116,7 @@
         initMultiView(<%- conf %>);
         initKeyControls();
         initResize();
+        initAudio();
 
         togglePlaybackOnAllViewPorts();
 
@@ -201,10 +202,12 @@
                             var mvectors = motionVectors[videoelemid];
                             if(mvectors!=null && curDisplayIndex < mvectors.length){
                                 value = 0;
+                                /*
                                 for (var l=0; l<vectorCretiras.length; l++){
                                     console.log("vectorCretiras["+l+"]:", vectorCretiras[l]);
                                 }
                                 console.log("motionVectors["+videoelemid+"]["+curDisplayIndex+"]:", motionVectors[videoelemid][curDisplayIndex]);
+                                */
                                 for (var l=0; l<vectorCretiras.length; l++){
                                     if(motionVectors[videoelemid][curDisplayIndex] > vectorCretiras[l]){
                                         value = l;
@@ -224,7 +227,7 @@
                         }
                         else 
                             value = Math.floor(Math.random() * allTracks[videoelemid].length);
-                        console.log("trackSelectOption:", trackSelectOption, "isStaticValue:",isStaticValue, "value:", value, "curDisplayIndex:", curDisplayIndex);
+                        //console.log("trackSelectOption:", trackSelectOption, "isStaticValue:",isStaticValue, "value:", value, "curDisplayIndex:", curDisplayIndex);
                         shakaPlayers[videoelemid].selectVariantTrack(allTracks[videoelemid][value], false);
                     } 
                 }
