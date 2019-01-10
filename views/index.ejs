@@ -120,8 +120,10 @@
 
         togglePlaybackOnAllViewPorts();
 
-        var threshold = 0.4;    // 300ms 10frames thresold
+        var threshold = 0.4;    // 400ms 11frames thresold
         var syncerror = 0.003;  // 3ms   0.1 frames 
+        // var forceSyncthreshold = 1.000; // 1.0 Seconds diff with Master Clock, force sync with master.
+        var forceSyncthreshold = threshold * 2.5; // 0.4 1000ms diff with Master Clock, force sync with master.
 
         setInterval(function(){ 
             var curTime=[], maxvididx, minvididx;
@@ -163,7 +165,15 @@
                     videoelem = document.getElementById(videoelemid);
 
                     var df =  curTime[i*4+j] - curAudioTime;
-                    if (   ((df > 0) && (df > syncerror)) 
+
+                    if (((df > 0) && (df > forceSyncthreshold))
+                    || ((df < 0) && (df < -1 * forceSyncthreshold))
+                    )
+                    {
+                        videoelem.currentTime = audioelem.currentTime;
+                        console.log(videoelemid +"ForceSync!, Diff: " + df*1000);
+                    }
+                    else if (   ((df > 0) && (df > syncerror)) 
                         || ((df < 0) && (df < -1*syncerror)) 
                        )
                     {
