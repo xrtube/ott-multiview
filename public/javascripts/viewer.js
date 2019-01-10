@@ -560,7 +560,7 @@ function initAudio() {
   var audioelem = document.getElementById('audio');
   audioelem.addEventListener("play", audioPlay, false);
   audioelem.addEventListener("pause", audioPause, false);
-  audioelem.addEventListener("timeupdate", audioSeek, true);
+  audioelem.addEventListener("seeked", audioSeek, true);
 }
 
 function audioPlay(){
@@ -584,10 +584,11 @@ function audioPause(){
 }
 
 function audioSeek(ev){
+  console.log("onseeked");
   for(var i=0; i<4; i++) {
     for(var j=0; j<4; j++) {
       var videoelem = document.getElementById('vp'+i+j);
-      videoelem.currentTime = ev.currentTarget.currentTime;
+      videoelem.currentTime = this.currentTime;
     }
   }
 }
