@@ -28,7 +28,7 @@ Demo3: K-POP EXID IDOL Girl Group #2
 Demo4: K-POP BLACKPINK IDOL Girl Group 마지막처럼
     http://lab.xrtube.net:3000/?config=blackpink-4k-1.json 
 
-Demo4: K-POP BLACKPINK IDOL Girl Group 대학교공연 
+Demo5: K-POP BLACKPINK IDOL Girl Group 대학교공연 
     http://lab.xrtube.net:3000/?config=blackpink-4k-2.json 
 
 
