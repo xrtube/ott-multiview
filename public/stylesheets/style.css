@@ -83,7 +83,7 @@ visibility:hidden;
 }
 
 .video-unmuted {
-border: 3px solid green;
+border: 1px solid green;
 }
 
 .title {
@@ -122,9 +122,9 @@ border: 1px solid #777777;
 }
 
 .audio_row {
-position: absolute;
+position: fixed;
 left: 0px;
-bottom: 0px;
+bottom: 10px;
 margin: 0px;
 padding: 0px;
 width: 100%; 
