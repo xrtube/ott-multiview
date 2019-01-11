@@ -113,7 +113,79 @@
     crossorigin="anonymous"></script>
   <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function(event) {
-        initMultiView(<%- conf %>);
+        var info = JSON.parse('<%- conf %>');
+        var fileurl = null;
+        if(info) fileurl = info['url'];
+        if(fileurl!=null){
+            $.ajax({
+                type : 'GET',
+                url : fileurl+'info.json',
+                success : function (data) {
+                    var conf = {
+                        "main": [],
+                        "row0": [],
+                        "row1": [],
+                        "row2": [],
+                        "row3": []
+                    }
+                    
+                    var dashurl = fileurl.replace('file','dash');
+                    // Preview -- not use
+                    var obj = {};
+                    obj.title = "Preview";
+                    obj.manifest = dashurl+"preview.mp4/manifest.mpd";
+                    obj.type = "dash";
+                    conf['main'].push(obj);
+                    // Merge -- not use
+                    obj = {};
+                    obj.title = "Merge";
+                    obj.manifest = "";
+                    obj.type = "dash";
+                    conf['main'].push(obj);
+                    // Audio
+                    var aBitrates = data['output']['audio']['profiles_order_by_bitrate'];
+                    obj = {};
+                    obj.title = "Audio";
+                    if(aBitrates !=null)
+                        obj.manifest = dashurl+"a_"+aBitrates[0].name+".mp4/manifest.mpd";
+                    else obj.manifest = "";
+                    obj.type = "dash";
+                    conf['main'].push(obj);
+                    // MotionVector
+                    obj = {};
+                    obj.title = "MotionVector";
+                    obj.manifest = fileurl+"motion_vector.json";
+                    obj.type = "dash";
+                    conf['main'].push(obj);
+
+                    // video
+                    var vBitrates = data['output']['video']['profiles_order_by_bitrate'];
+                    for(var i=0; i<4; i++) {
+                        for(var j=0; j<4; j++) {
+                            obj = {};
+                            obj.title = "Example " + ((i*4)+j+1);
+                            if(vBitrates !=null){
+                                var video_manfest = "v_,";
+                                vBitrates.forEach(function(element){
+                                    video_manfest += element.name+"_"+i+"x"+j+".mp4,"
+                                });
+                                video_manfest += ".urlset/manifest.mpd";
+                                obj.manifest = dashurl+video_manfest;
+                            }
+                            else obj.manifest = "";
+                            obj.type = "dash";    
+                            conf['row'+i].push(obj);
+                        }
+                    }
+                    //console.log('conf',conf);
+                    init(conf);
+                }        
+            });
+        }
+    });
+
+    function init(conf){
+        initMultiView(conf);
         initKeyControls();
         initResize();
         initAudio();
@@ -244,8 +316,8 @@
             }
             curDisplayIndex += 1;
         }, 1000);
-        
-    });
+    }
+
   </script>
 </body>
 </html>

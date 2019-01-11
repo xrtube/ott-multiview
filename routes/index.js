@@ -9,11 +9,7 @@ const path = require('path');
 
 function initiateDefaultConf() {
   return {
-    "main": [],
-    "row0": [],
-    "row1": [],
-    "row2": [],
-    "row3": []
+    "url": ""
   };
 }
 
