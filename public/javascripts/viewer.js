@@ -12,7 +12,7 @@ var motionVectorUrl = null;
 var motionVectors = {};
 var motionVectorMax = 0;
 var motionVectorMin = 0;
-var trackSelectOption = 1; // random = 1 (default), motionvector = 2
+var trackSelectOption = 2; // random = 1 (default), motionvector = 2, hightlught = 3
 var curDisplayIndex = 0;
 var vectorCretiras = [];
 var highligtAreas=[];
@@ -160,7 +160,6 @@ function activateViewPort(videoelemid) {
     if(trackSelectOption==3 && activeViewPort == videoelemid) {
       for(var k=0; k<highligtAreas.length; k++) {
         var htempid = highligtAreas[k];
-        console.log("htempid:",htempid);
         shakaPlayers[htempid].selectVariantTrack(allTracks[htempid][maxlength], false);
       }
     }
@@ -309,16 +308,13 @@ function activateViewPort(videoelemid) {
           var tempid = "vp"+i+j;
           if(videoelemid==tempid){
             shakaPlayers[videoelemid].selectVariantTrack(allTracks[videoelemid][0], true);
-            console.log("tempid:",tempid,0);
           }
           else if(highligtAreas.indexOf(tempid)>=0){
             shakaPlayers[tempid].selectVariantTrack(allTracks[tempid][1], false);
-            console.log("tempid:",tempid,1);
           }
           else {
             maxlength = allTracks[tempid].length - 1;
             shakaPlayers[tempid].selectVariantTrack(allTracks[tempid][maxlength], false);
-            console.log("tempid:",tempid,maxlength);
           }
         }
       } 
@@ -329,7 +325,7 @@ function activateViewPort(videoelemid) {
     }
     */
   } else {
-    trackSelectOption = 1;
+    trackSelectOption = 2;
     activeViewPort = null;
   }
 }
@@ -595,7 +591,6 @@ function audioPause(){
 }
 
 function audioSeek(ev){
-  console.log("onseeked");
   for(var i=0; i<4; i++) {
     for(var j=0; j<4; j++) {
       var videoelem = document.getElementById('vp'+i+j);
