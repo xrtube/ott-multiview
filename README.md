@@ -1,6 +1,12 @@
 This is a web based XRtube client App. It is Recommended to run in fullscreen mode.
 
-Best compatible with Chrome browser.
+**Best compatible with Chrome browser.**
+
+**In case of Playing 4K, 8K Video, We recommends to PC have latest Video GPU.
+Old intel cpu (internal GPU) or Old GPU card have a problem of rendering 4K,8K video frame.
+It makes not a good rendering quality, it cause from GPU, most of case, not a issue on transfer-rates.
+XRTube MPEG-DASH stack supports adaptive streaming well, if network infra is not good , please enjoy and feedback to issues**
+
 
 ![](xrtube-peru1-8k.jpg)
 
