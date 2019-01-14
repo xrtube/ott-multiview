@@ -74,17 +74,12 @@ When the Node express app is up and running you can direct your Chrome browser t
 where twice-8k.json and example.json is a configuration file placed in the directory config/ and can look like this:
 
 		{
-			"row0": [
-				{ "title": "View port title",
-				  "manifest": "http://example.com/master.m3u8",
-				  "type": "hls" }
-			],
-			"row1": [
-				{ "title": "View port title 2",
-				  "manifest": "http://example.com/manifest.mpd",
-				  "type": "dash" }
-			]
+		  "url": "http://lab.xrtube.net:2080/file/out/00032_4k-170724-blackpink-beulraegpingkeu-ulsan-seomeo-peseutibeol-majimagceoreom-hwiparam-buljangnan-jeonce-jigkaem-full-version-fancam-mkv/"
 		}
+
+In XRTube, you just add contents' base url is enough.
+there's meta data indicating make streaming info.
+
 
 To toggle 'Space' key to Play or Stop. A green border indicates for which Tile(viewport) is selected. 
 
