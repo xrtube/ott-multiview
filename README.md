@@ -4,13 +4,20 @@ This is a web based XRtube client App. It is Recommended to run in fullscreen mo
 
 **In case of Playing 4K, 8K Video, We recommends to PC have latest Video GPU.
 Old intel cpu (internal GPU) or Old GPU card have a problem of rendering 4K,8K video frame.
-It makes not a good rendering quality, it cause from GPU, most of case, not a issue on transfer-rates.
-XRTube MPEG-DASH stack supports adaptive streaming well, if network infra is not good , please enjoy and feedback to issues**
-
+Another Cause is Memory , we recommends larger than 8GB PC Memory.<br>
+It makes not a good rendering quality, it cause from GPU and PC Memory, most of case, not a issue on transfer-rates.<br>
+Even though your network infra is not good , but XRTube MPEG-DASH stack supports adaptive streaming well. <br>
+please enjoy and feedback to issues**
+<br>
+<hr>
+<br>
 
 ![](xrtube-peru1-8k.jpg)
 
+<hr>
+
 Demo: http://lab.xrtube.net:3000/?config=twice-8k.json
+
 
 ![](xrtube-twice-poi.jpg)
 
