@@ -1,5 +1,8 @@
 This is a web based XRtube client App. It is Recommended to run in fullscreen mode.
 
+**DEVELOPMENT SITE : http://xrtube.net**
+
+
 **Best compatible with Chrome browser.**
 
 **In case of Playing 4K, 8K Video, We recommends to PC have latest Video GPU.
